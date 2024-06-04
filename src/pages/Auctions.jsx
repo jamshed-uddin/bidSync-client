@@ -1,16 +1,16 @@
+import AuctionCard from "../components/AuctionCard";
+import AuctionGrid from "../components/AuctionGrid";
 import Title from "../components/Title";
+import useAllData from "../hooks/useAllData";
 
 const Auctions = () => {
+  const { allListings } = useAllData();
+
   return (
     <div>
       <Title>Place your bid</Title>
-      <div className="grid  lg:grid-cols-3 gap-4 my-6">
-        {[1, 2, 3, 4].map((item, index) => (
-          <div className="bg-gray-100 p-12" key={index}>
-            {" "}
-            {item}
-          </div>
-        ))}
+      <div>
+        <AuctionGrid items={allListings} />
       </div>
     </div>
   );

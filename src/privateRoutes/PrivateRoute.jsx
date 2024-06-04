@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }) => {
     return <div className="h-screen w-screen bg-white"></div>;
   }
 
-  if (!user) {
+  if (user) {
     return children;
   }
 

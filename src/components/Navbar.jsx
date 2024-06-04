@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import { HiOutlineBookmark } from "react-icons/hi2";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -60,13 +62,22 @@ const Navbar = () => {
         <div className=" flex items-center gap-3">
           <ul className=" flex items-center gap-3">
             <li>
-              <Link to={"/search"}>Search</Link>
+              <Link to={"/search"}>
+                <span>
+                  <HiMagnifyingGlass size={25} />
+                </span>
+              </Link>
             </li>
             <li>
-              <Link to={"/savedItems"}>Saved</Link>
+              <Link to={"/savedItems"}>
+                {" "}
+                <span>
+                  <HiOutlineBookmark size={25} />
+                </span>
+              </Link>
             </li>
           </ul>
-          {!user ? (
+          {user ? (
             <Link to={"/dashboard/profile"}>
               <div className="  flex gap-2 md:bg-gray-100 p-1 rounded-lg">
                 <div className="hidden md:block">Dashboard</div>
@@ -90,9 +101,10 @@ const Navbar = () => {
               </div>
             </Link>
           ) : (
-            <div className="btn btn-sm">
-              <Link to={"/login"}>Login</Link>
-            </div>
+            <Link to={"/login"}>
+              {" "}
+              <div className="btn btn-sm">Login</div>
+            </Link>
           )}
         </div>
       </div>

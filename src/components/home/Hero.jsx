@@ -2,7 +2,7 @@ import heroImage from "../../assets/Fujishima-Takeji-Sunrise-over-the-Eastern-Se
 
 const Hero = () => {
   return (
-    <div className="mt-7">
+    <div className="mt-24">
       <div>
         <h1 className="md:text-8xl text-5xl font-bold text-center pb-2 md:pb-5 ">
           Bid and claim the best from BidSync

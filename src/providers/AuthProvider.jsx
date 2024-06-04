@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import {
-  GithubAuthProvider,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
@@ -11,11 +10,11 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
+import axios from "axios";
 export const AuthContext = createContext(null);
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-const githubProvider = new GithubAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -39,13 +38,23 @@ const AuthProvider = ({ children }) => {
   const loginWithGoogle = async () => {
     return signInWithPopup(auth, googleProvider);
   };
-  const loginWithGithub = async () => {
-    return signInWithPopup(auth, githubProvider);
-  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      if (currentUser) {
+        axios
+          .post(`${import.meta.env.VITE_baseUrl}/user/generateJwtToken`, {
+            email: currentUser?.email,
+          })
+          .then((res) => {
+            localStorage.setItem("jwt", res.data.token);
+          });
+      } else {
+        localStorage.removeItem("jwt");
+        setLoading(false);
+      }
       setLoading(false);
     });
 
@@ -62,7 +71,6 @@ const AuthProvider = ({ children }) => {
     userLogin,
     userLogout,
     loginWithGoogle,
-    loginWithGithub,
   };
   return (
     <AuthContext.Provider value={authOptions}>{children}</AuthContext.Provider>

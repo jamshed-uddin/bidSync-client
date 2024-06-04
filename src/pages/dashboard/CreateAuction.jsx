@@ -5,8 +5,11 @@ import axios from "axios";
 
 import DashboardTitle from "../../components/dashboard/DashboardTitle";
 import Button from "../../components/Button";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import toast, { Toaster } from "react-hot-toast";
 const CreateAuction = () => {
-  const { id: editingProductId } = useParams();
+  const { id: editingAuctionId } = useParams();
+
   const [editMode, setEditMode] = useState(false);
   const [auctionData, setAuctionData] = useState({
     title: "",
@@ -17,26 +20,27 @@ const CreateAuction = () => {
     category: "",
   });
   const [loading, setLoading] = useState(false);
-
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   console.log(auctionData);
 
   // using add product form for editing product by filling the product state with the product that need to be edited.
   useEffect(() => {
-    if (editingProductId) {
+    if (editingAuctionId) {
       setEditMode(true);
     }
 
     const loadHeroProduct = async () => {
       const data = await axios.get(
-        `http://localhost:3000/products/${editingProductId}`
+        `${import.meta.env.VITE_baseUrl}/listings/${editingAuctionId}`
       );
-
-      setProductData(data?.data);
+      console.log(data?.data?.data);
+      setAuctionData(data?.data?.data);
     };
 
     loadHeroProduct();
-  }, [editingProductId]);
+  }, [editingAuctionId]);
+  console.log(auctionData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -79,42 +83,49 @@ const CreateAuction = () => {
 
     console.log(auctionData);
 
-    // try {
-    //   // if the form being used for editing product;
-    //   if (editMode && editingProductId) {
-    //     setLoading(true);
-    //     const updatedProduct = await axios.patch(
-    //       `http://localhost:3000/products/${editingProductId}`,
-    //       product
-    //     );
-    //     navigate(
-    //       `/sneaker/${updatedProduct?.data?.model}/${updatedProduct?.data?.id}`
-    //     );
+    try {
+      // if the form being used for editing product;
+      if (editMode && editingAuctionId) {
+        setLoading(true);
 
-    //     setLoading(false);
-    //     return;
-    //   } else {
-    //     // if the form is being used for adding product;
-    //     setLoading(true);
-    //     const addedProduct = await axios.post(
-    //       "http://localhost:3000/products",
-    //       product
-    //     );
-    //     navigate(
-    //       `/sneaker/${addedProduct?.data?.model}/${addedProduct?.data?.id}`
-    //     );
+        const updatedAuction = await axiosSecure.patch(
+          `/listings/${editingAuctionId}`,
+          auctionData
+        );
+        console.log(updatedAuction?.data?.data);
+        toast.success("Auction updated successfully");
+        navigate(`/auctions/${updatedAuction?.data?.data.auctionId}`, {
+          replace: true,
+        });
 
-    //     setLoading(false);
-    //   }
-    // } catch (error) {
-    //   setLoading(false);
-    // }
+        setLoading(false);
+        return;
+      } else {
+        // if the form is being used for adding product;
+        setLoading(true);
+        const addedAuction = await axiosSecure.post("/listings", auctionData);
+        navigate(`/auctions/${addedAuction?.data?.data.auctionId}`, {
+          replace: true,
+        });
+        console.log(addedAuction);
+        toast.success("Auction created successfully");
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+      setLoading(false);
+    }
   };
 
   return (
     <div className="pb-7">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{ duration: 5000 }}
+      />
       <DashboardTitle>
-        {editingProductId && editMode ? "Edit auction" : "Add auction"}
+        {editingAuctionId && editMode ? "Edit auction" : "Add auction"}
       </DashboardTitle>
       <div className="mt-2 lg:w-3/4">
         <form onSubmit={submitProduct} className="md:space-y-4 mt-5">
@@ -164,7 +175,7 @@ const CreateAuction = () => {
                   placeholder="Photo url"
                   className="input input-bordered w-full  focus:outline-none"
                   name="photoURL"
-                  value={auctionData.imageUrl}
+                  value={item}
                   onChange={(e) => handlePhotoURLInputChange(e, index)}
                   required
                 />
@@ -191,7 +202,7 @@ const CreateAuction = () => {
                 placeholder="Closses in"
                 className="input input-bordered w-full  focus:outline-none"
                 name="clossesIn"
-                value={auctionData.clossesIn}
+                value={auctionData.clossesIn.split("T").at(0)}
                 onChange={handleInputChange}
                 required
               />
@@ -234,7 +245,7 @@ const CreateAuction = () => {
           </div>
 
           <div className="mt-2 text-center md:text-end ">
-            <Button disabled={loading} type={"submit"}>
+            <Button disabled={loading} isLoading={loading} type={"submit"}>
               Submit
             </Button>
           </div>
