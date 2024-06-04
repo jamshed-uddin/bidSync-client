@@ -1,9 +1,9 @@
-import Title from "../components/Title";
+import Title from "../Title";
 
-const Auctions = () => {
+const EasyBids = () => {
   return (
     <div>
-      <Title>Place your bid</Title>
+      <Title>Easy bids</Title>
       <div className="grid  lg:grid-cols-3 gap-4 my-6">
         {[1, 2, 3, 4].map((item, index) => (
           <div className="bg-gray-100 p-12" key={index}>
@@ -16,4 +16,4 @@ const Auctions = () => {
   );
 };
 
-export default Auctions;
+export default EasyBids;

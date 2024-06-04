@@ -1,15 +1,21 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import "./App.css";
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
-      <h2>hello</h2>
-      <button className="btn btn-sm">hello there</button>
+    <div className="flex flex-col lg:mx-20 mx-2">
+      <div>
+        <Navbar />
+      </div>
+      <div className="flex-grow min-h-[calc(100vh-5rem)] mx-2">
+        <Outlet />
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }
