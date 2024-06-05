@@ -24,7 +24,7 @@ const SearchPage = () => {
       </div>
       <div className="mt-2 text-center">
         {!debouncedValue && (
-          <h1 className="text-xl font-semibold">Search for auctions</h1>
+          <h1 className=" text-xl lg:font-semibold">Search for auctions</h1>
         )}
       </div>
       {debouncedValue && isLoading ? (

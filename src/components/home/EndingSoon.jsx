@@ -2,10 +2,13 @@ import { Link } from "react-router-dom";
 import useGetData from "../../hooks/useGetData";
 import AuctionGrid from "../AuctionGrid";
 import Title from "../Title";
+import CardSkeleton from "../CardSkeleton";
 
 const EndingSoon = () => {
-  const { data } = useGetData("/listings");
-
+  const { data, isLoading } = useGetData("/listings");
+  if (isLoading) {
+    return <CardSkeleton />;
+  }
   return (
     <div>
       <div className="flex justify-between items-end">

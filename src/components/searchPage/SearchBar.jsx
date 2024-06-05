@@ -2,7 +2,7 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import { HiXMark } from "react-icons/hi2";
 
 const Searchbar = ({ searchQuery, setSearchQuery }) => {
-  const inputStyle = `input input-bordered focus:outline-0 focus:border-[1.3px]  input-sm w-full`;
+  const inputStyle = `input input-bordered focus:outline-0 focus:border-[1.3px]  input-sm w-full bg-white`;
 
   const searchQueryHandler = (e) => {
     const value = e.target.value;
