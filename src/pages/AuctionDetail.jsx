@@ -128,7 +128,7 @@ const AuctionDetail = () => {
               <input
                 type="number"
                 placeholder=""
-                className="input  input-bordered w-full  focus:outline-none"
+                className="input  input-bordered w-full  focus:outline-none bg-white"
                 name="amount"
                 value={placedBidAmount}
                 onChange={(e) => {
@@ -154,7 +154,7 @@ const AuctionDetail = () => {
       </Modal>
       <div className="md:flex   gap-5 relative">
         {/* image */}
-        <div className="md:w-1/2 shrink-0 overflow-hidden  h-screen lg:sticky top-8">
+        <div className="md:w-1/2 shrink-0 overflow-hidden h-[55vh]  lg:h-[90vh] lg:sticky top-8  mb-5 lg:mb-0">
           <div className="h-full w-full overflow-hidden relative">
             {auction?.photoURL.map((photo, index) => (
               <img

@@ -54,6 +54,8 @@ const Login = () => {
     }
   };
 
+  const inputStyle = "input input-bordered w-full  focus:outline-none bg-white";
+
   return (
     <div className="h-screen flex justify-center items-center ">
       <div className="lg:w-1/4 w-full lg:mx-auto mx-10">
@@ -69,7 +71,7 @@ const Login = () => {
             <input
               type="text"
               placeholder="Enter you email"
-              className="input input-bordered w-full  focus:outline-none"
+              className={inputStyle}
               name="email"
               value={userCredential.email}
               onChange={handleInputChange}
@@ -91,7 +93,7 @@ const Login = () => {
             <input
               type={showPass ? "text" : "password"}
               placeholder="Your password"
-              className="input input-bordered w-full  focus:outline-none"
+              className={inputStyle}
               name="password"
               value={userCredential.password}
               onChange={handleInputChange}
@@ -123,7 +125,7 @@ const Login = () => {
 
         <div className="mt-5">
           <h1>
-            New to Peak Sneaker?
+            New to BidSync?
             <Link to={"/signup"}>
               <span className="text-blue-600 underline">Sign up</span>
             </Link>

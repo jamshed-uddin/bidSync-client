@@ -65,6 +65,8 @@ const UserProfile = () => {
     }
   };
 
+  const inputStyle = "input input-bordered w-full  focus:outline-none bg-white";
+
   if (singleUserLoading) {
     return <ProfileSkeleton />;
   }
@@ -158,7 +160,7 @@ const UserProfile = () => {
               <input
                 type="text"
                 placeholder="Name"
-                className="input input-bordered w-full  focus:outline-none"
+                className={inputStyle}
                 name="name"
                 value={userInfo.name || singleUser?.name}
                 onChange={handleInputChange}
@@ -172,7 +174,7 @@ const UserProfile = () => {
               <input
                 type="text"
                 placeholder="Photo url"
-                className="input input-bordered w-full  focus:outline-none"
+                className={inputStyle}
                 name="photoURL"
                 value={userInfo.photoURL || singleUser?.photoURL}
                 onChange={handleInputChange}
@@ -186,7 +188,7 @@ const UserProfile = () => {
                 <input
                   type="text"
                   placeholder="Country"
-                  className="input input-bordered w-full  focus:outline-none"
+                  className={inputStyle}
                   name="country"
                   value={
                     userInfo.address.country || singleUser?.address?.country
@@ -202,7 +204,7 @@ const UserProfile = () => {
                 <input
                   type="text"
                   placeholder="City"
-                  className="input input-bordered w-full  focus:outline-none"
+                  className={inputStyle}
                   name="city"
                   value={userInfo.address.city || singleUser?.address?.city}
                   onChange={handleAddressLineInput}
@@ -217,7 +219,7 @@ const UserProfile = () => {
               <textarea
                 type="text"
                 placeholder="Address line 1"
-                className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40"
+                className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40 bg-white"
                 name="addressLineOne"
                 value={
                   userInfo.address.addressLineOne ||
@@ -234,7 +236,7 @@ const UserProfile = () => {
               <textarea
                 type="text"
                 placeholder="Address line 2"
-                className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40"
+                className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40 bg-white"
                 name="addressLineTwo"
                 value={
                   userInfo.address.addressLineTwo ||

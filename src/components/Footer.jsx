@@ -57,7 +57,7 @@ const Footer = () => {
       </div>
       <div className="mt-2">
         <h1 className="text-center font-thin text-sm">
-          @2024 Peak Sneaker.All rights reserved.
+          @2024 BidSync.All rights reserved.
         </h1>
       </div>
     </div>

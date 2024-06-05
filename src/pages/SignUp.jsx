@@ -59,6 +59,7 @@ const Signup = () => {
       }
     }
   };
+  const inputStyle = "input input-bordered w-full  focus:outline-none bg-white";
 
   return (
     <div className="h-screen flex justify-center items-center ">
@@ -67,7 +68,7 @@ const Signup = () => {
           <h1 className="text-lg lg:text-2xl font-bold">BidSync</h1>
         </Link>
         <div className="mt-4">
-          <h1 className="text-center mb-2 font-semibold text-2xl">Login</h1>
+          <h1 className="text-center mb-2 font-semibold text-2xl">Sign up</h1>
           <div>
             <label htmlFor="" className="text-lg font-semibold">
               Name
@@ -75,7 +76,7 @@ const Signup = () => {
             <input
               type="text"
               placeholder="Your name"
-              className="input input-bordered w-full  focus:outline-none"
+              className={inputStyle}
               name="name"
               value={userCredential.name}
               onChange={handleInputChange}
@@ -89,7 +90,7 @@ const Signup = () => {
             <input
               type="text"
               placeholder="Enter you email"
-              className="input input-bordered w-full focus:outline-none"
+              className={inputStyle}
               name="email"
               value={userCredential.email}
               onChange={handleInputChange}
@@ -117,7 +118,7 @@ const Signup = () => {
             <input
               type={showPass.password ? "text" : "password"}
               placeholder="Your password"
-              className="input input-bordered w-full  focus:outline-none"
+              className={inputStyle}
               name="password"
               value={userCredential.password}
               onChange={handleInputChange}
@@ -145,7 +146,7 @@ const Signup = () => {
             <input
               type={showPass.confirmPassword ? "text" : "password"}
               placeholder="Confirm password"
-              className="input input-bordered w-full  focus:outline-none"
+              className={inputStyle}
               name="confirmPassword"
               value={userCredential.confirmPassword}
               onChange={handleInputChange}

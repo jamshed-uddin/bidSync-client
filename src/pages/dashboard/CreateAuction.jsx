@@ -136,6 +136,8 @@ const CreateAuction = () => {
     }
   };
 
+  const inputStyle = "input input-bordered w-full  focus:outline-none bg-white";
+
   return (
     <div className="pb-7">
       <Toaster
@@ -156,7 +158,7 @@ const CreateAuction = () => {
               <input
                 type="text"
                 placeholder="Title"
-                className="input input-bordered w-full  focus:outline-none"
+                className={inputStyle}
                 name="title"
                 value={auctionData.title}
                 onChange={handleInputChange}
@@ -170,7 +172,7 @@ const CreateAuction = () => {
               <input
                 type="number"
                 placeholder="Starting price"
-                className="input input-bordered w-full  focus:outline-none"
+                className={inputStyle}
                 name="startingPrice"
                 value={
                   auctionData.startingPrice &&
@@ -192,7 +194,7 @@ const CreateAuction = () => {
                 <input
                   type="text"
                   placeholder="Photo url"
-                  className="input input-bordered w-full  focus:outline-none"
+                  className={inputStyle}
                   name="photoURL"
                   value={item}
                   onChange={(e) => handlePhotoURLInputChange(e, index)}
@@ -223,7 +225,7 @@ const CreateAuction = () => {
               <input
                 type="date"
                 placeholder="Closses in"
-                className="input input-bordered w-full  focus:outline-none"
+                className={inputStyle}
                 name="clossesIn"
                 value={auctionData?.clossesIn?.split("T").at(0)}
                 onChange={handleInputChange}
@@ -237,7 +239,7 @@ const CreateAuction = () => {
               </label>
 
               <select
-                className="select select-bordered focus:outline-none w-full"
+                className="select select-bordered focus:outline-none w-full bg-white"
                 name="category"
                 id=""
                 onChange={handleInputChange}
@@ -261,7 +263,7 @@ const CreateAuction = () => {
             <textarea
               type="text"
               placeholder="Product description"
-              className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40"
+              className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40  bg-white"
               name="description"
               value={auctionData.description}
               onChange={handleInputChange}

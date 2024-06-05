@@ -1,9 +1,8 @@
-import React from "react";
 import useAxiosSecure from "./useAxiosSecure";
 import useGetData from "./useGetData";
 import useAuth from "./useAuth";
 
-const useSaveUnsave = (id) => {
+const useSaveUnsave = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const {

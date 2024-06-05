@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="flex flex-col lg:mx-20 mx-2 bg-white">
+    <div className="flex flex-col lg:mx-20 mx-2 ">
       <div>
         <Navbar />
       </div>
