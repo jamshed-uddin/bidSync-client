@@ -1,9 +1,19 @@
 import AuctionGrid from "../components/AuctionGrid";
+import CardSkeleton from "../components/CardSkeleton";
 import Title from "../components/Title";
+import WentWrong from "../components/WentWrong";
+
 import useSaveUnsave from "../hooks/useSaveUnsave";
 
 const SavedItems = () => {
-  const { savedItems } = useSaveUnsave();
+  const { savedItems, savedItemLoading, savedItemError } = useSaveUnsave();
+
+  if (savedItemLoading) {
+    return <CardSkeleton />;
+  }
+  if (savedItemError) {
+    return <WentWrong />;
+  }
 
   return (
     <div>

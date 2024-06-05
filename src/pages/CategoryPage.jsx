@@ -12,9 +12,9 @@ const categories = [
   "Jewellery",
   "Fashion",
   "Watches",
-  "Coin & stamps",
-  "Car & motorbikes",
-  "Toy & model",
+  "Coin & Stamps",
+  "Car & Motorbikes",
+  "Toy & Model",
   "Interior",
 ];
 const CategoryPage = () => {

@@ -15,15 +15,19 @@ import toast, { Toaster } from "react-hot-toast";
 import useSaveUnsave from "../hooks/useSaveUnsave";
 import useGetData from "../hooks/useGetData";
 import WentWrong from "../components/WentWrong";
+import useAuth from "../hooks/useAuth";
 const AuctionDetail = () => {
   const { id } = useParams();
+  const { user, loading: userLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const [bidPlaceLoading, setBidPlaceLoading] = useState(false);
   const [placedBidAmount, setPlacedBidAmount] = useState(null);
   const [bidError, setBidError] = useState("");
   const { handleAuctionSaveUnsave, isSaved } = useSaveUnsave();
-  const [isAuctionSaved, setIsAuctionSaved] = useState(isSaved(id));
+  const [isAuctionSaved, setIsAuctionSaved] = useState(
+    user ? isSaved(id) : false
+  );
   const [photoIndex, setPhotoIndex] = useState(0);
 
   const openModal = () => {
@@ -63,6 +67,16 @@ const AuctionDetail = () => {
       toast.success("Something went wrong!");
       setBidPlaceLoading(false);
     }
+  };
+
+  const handleSaveUnsave = () => {
+    if (!user && !userLoading) {
+      return toast.error("Please login to save auction");
+    }
+
+    toast(isAuctionSaved ? "Auction unsaved" : "Auction saved");
+    setIsAuctionSaved((p) => !p);
+    handleAuctionSaveUnsave(id, isAuctionSaved ? false : true);
   };
 
   if (loading) {
@@ -176,11 +190,7 @@ const AuctionDetail = () => {
               </>
             )}
             <span
-              onClick={() => {
-                toast(isAuctionSaved ? "Auction unsaved" : "Auction saved");
-                setIsAuctionSaved((p) => !p);
-                handleAuctionSaveUnsave(id, isAuctionSaved ? false : true);
-              }}
+              onClick={handleSaveUnsave}
               className="absolute top-5 right-5 p-1 rounded-lg bg-white cursor-pointer active:scale-95 shadow-xl"
             >
               {isAuctionSaved ? (
@@ -227,9 +237,9 @@ const AuctionDetail = () => {
             <div>
               {bidsLoading ? (
                 <h1>Bids loading...</h1>
-              ) : bids.length ? (
+              ) : bids?.length ? (
                 bids?.map((bid) => (
-                  <div key={bid._id}>
+                  <div key={bid?._id}>
                     <h1 className="flex justify-between items-center ">
                       <span>{bid?.user?.name}</span>
                       <span>${bid?.amount}</span>

@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   if (loading) {
-    return <div className="h-screen w-screen bg-white"></div>;
+    return <div className="h-screen  bg-white"></div>;
   }
 
   if (user) {

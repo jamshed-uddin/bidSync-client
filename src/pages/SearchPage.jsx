@@ -27,7 +27,11 @@ const SearchPage = () => {
           <h1 className="text-xl font-semibold">Search for auctions</h1>
         )}
       </div>
-      {isLoading ? <CardSkeleton amount={3} /> : <AuctionGrid items={data} />}
+      {debouncedValue && isLoading ? (
+        <CardSkeleton amount={3} />
+      ) : (
+        <AuctionGrid items={data} />
+      )}
     </div>
   );
 };

@@ -5,7 +5,7 @@ const ScrollTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (pathname.includes("sneaker")) {
+    if (pathname.includes("auction")) {
       window.scrollTo(0, 0);
     }
   }, [pathname]);

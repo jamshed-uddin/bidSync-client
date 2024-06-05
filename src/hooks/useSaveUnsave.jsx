@@ -1,10 +1,16 @@
 import React from "react";
 import useAxiosSecure from "./useAxiosSecure";
 import useGetData from "./useGetData";
+import useAuth from "./useAuth";
 
 const useSaveUnsave = (id) => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data } = useGetData(`/savedItems`);
+  const {
+    data,
+    isLoading: savedItemLoading,
+    error: savedItemError,
+  } = useGetData(`/savedItems`, !!user);
 
   const isSaved = (id) => {
     const savedItems = data?.map((item) => item.auction);
@@ -33,6 +39,8 @@ const useSaveUnsave = (id) => {
     handleAuctionSaveUnsave,
     savedItems: data?.map((item) => item.auction),
     isSaved,
+    savedItemLoading,
+    savedItemError,
   };
 };
 

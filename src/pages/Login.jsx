@@ -33,6 +33,7 @@ const Login = () => {
   const handleUserLogin = async () => {
     try {
       await userLogin(userCredential.email, userCredential.password);
+      setLoading((p) => !p);
     } catch (error) {
       setLoading((p) => !p);
       if (error.message === "Firebase: Error (auth/invalid-credential).") {
@@ -47,6 +48,7 @@ const Login = () => {
 
       const userBody = { name: res?.user?.displayName, email: res.user?.email };
       await axios.post(`${import.meta.env.VITE_baseUrl}/user`, userBody);
+      setLoading((p) => !p);
     } catch (error) {
       setLoading((p) => !p);
     }
