@@ -5,6 +5,7 @@ import AuctionGrid from "../components/AuctionGrid";
 import CardSkeleton from "../components/CardSkeleton";
 import NoItemAvailable from "../components/NoItemAvailable";
 import { useLocation } from "react-router-dom";
+import WentWrong from "../components/WentWrong";
 const categories = [
   "All",
   "Paintings",
@@ -19,9 +20,10 @@ const categories = [
 const CategoryPage = () => {
   const [category, setCategory] = useState("");
   const location = useLocation();
-  console.log("link state", location.state);
 
-  const { data, isLoading } = useGetData(`/listings?category=${category}`);
+  const { data, isLoading, error } = useGetData(
+    `/listings?category=${category}`
+  );
 
   useEffect(() => {
     if (location.state) {
@@ -32,7 +34,11 @@ const CategoryPage = () => {
   if (isLoading) {
     return <CardSkeleton />;
   }
-  console.log(data);
+
+  if (error) {
+    return <WentWrong />;
+  }
+
   return (
     <div>
       <Title>Categories</Title>

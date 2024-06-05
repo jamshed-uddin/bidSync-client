@@ -51,13 +51,8 @@ const Signup = () => {
         name: userCredential.name,
         email: userCredential.email,
       };
-      const result = await axios.post(
-        `${import.meta.env.VITE_baseUrl}/user`,
-        userBody
-      );
-      console.log(result);
+      await axios.post(`${import.meta.env.VITE_baseUrl}/user`, userBody);
     } catch (error) {
-      console.log(error);
       setLoading((p) => !p);
       if (error.message === "Firebase: Error (auth/email-already-in-use).") {
         setError("An account with this email already exists.");

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
+
 import DashboardTitle from "../../components/dashboard/DashboardTitle";
 import Button from "../../components/Button";
 import useSingleUser from "../../hooks/useSingleUser";
@@ -62,7 +62,6 @@ const UserProfile = () => {
     } catch (error) {
       setLoading(false);
       toast.error("Something went wrong!");
-      console.log(error);
     }
   };
 

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+
 import calculateDays from "../utils/calculateDays";
 import Button from "../components/Button";
 import DetailSkeleton from "../components/DetailSkeleton";
@@ -14,6 +14,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 import toast, { Toaster } from "react-hot-toast";
 import useSaveUnsave from "../hooks/useSaveUnsave";
 import useGetData from "../hooks/useGetData";
+import WentWrong from "../components/WentWrong";
 const AuctionDetail = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
@@ -32,11 +33,14 @@ const AuctionDetail = () => {
   const closeModal = () => {
     document.getElementById("closeBtn").click();
   };
-  const { data: auction, isLoading: loading } = useGetData(`/listings/${id}`);
+  const {
+    data: auction,
+    isLoading: loading,
+    error: auctionError,
+  } = useGetData(`/listings/${id}`);
   const { data: bids, isLoading: bidsLoading } = useGetData(`/bids/${id}`);
 
   const placeBidHandler = async () => {
-    console.log("hello");
     if (typeof placedBidAmount !== "number") {
       setBidError("Please input valid amount.");
     } else if (
@@ -61,12 +65,13 @@ const AuctionDetail = () => {
     }
   };
 
-  console.log(isAuctionSaved);
-
   if (loading) {
     return <DetailSkeleton />;
   }
 
+  if (auctionError) {
+    return <WentWrong />;
+  }
   return (
     <div className=" min-h-[calc(100vh-6rem)] mt-3">
       <Toaster
@@ -82,7 +87,7 @@ const AuctionDetail = () => {
               <span className="text-sm">$</span>
               {auction?.highestBid || auction?.startingPrice}
             </h1>
-            <h1 className="mt-1">{calculateDays(auction?.clossesIn)} left</h1>
+            <h1 className="mt-1">{calculateDays(auction?.clossesIn)}</h1>
           </div>
 
           <div className="flex justify-between gap-4 mt-2">
@@ -197,6 +202,7 @@ const AuctionDetail = () => {
           </div>
 
           {/* price and bid button */}
+
           <div className=" flex justify-between items-end mt-6">
             <div>
               <h1>{auction?.highestBid ? "Current bid" : "Starting from"}</h1>
@@ -204,11 +210,13 @@ const AuctionDetail = () => {
                 <span className="text-sm">$</span>
                 {auction?.highestBid || auction?.startingPrice}
               </h1>
-              <h1 className="mt-1">{calculateDays(auction?.clossesIn)} left</h1>
+              <h1 className="mt-1">{calculateDays(auction?.clossesIn)}</h1>
             </div>
-            <div>
-              <Button clickFunc={openModal}>Place bid</Button>
-            </div>
+            {calculateDays(auction?.clossesIn) !== "Auction closed" && (
+              <div>
+                <Button clickFunc={openModal}>Place bid</Button>
+              </div>
+            )}
           </div>
 
           {/* bidders */}

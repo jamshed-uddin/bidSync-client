@@ -22,7 +22,6 @@ const CreateAuction = () => {
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  console.log(auctionData);
 
   // using add product form for editing product by filling the product state with the product that need to be edited.
   useEffect(() => {
@@ -34,13 +33,12 @@ const CreateAuction = () => {
       const data = await axios.get(
         `${import.meta.env.VITE_baseUrl}/listings/${editingAuctionId}`
       );
-      console.log(data?.data?.data);
+
       setAuctionData(data?.data?.data);
     };
 
     loadHeroProduct();
   }, [editingAuctionId]);
-  console.log(auctionData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,8 +79,6 @@ const CreateAuction = () => {
   const submitProduct = async (e) => {
     e.preventDefault();
 
-    console.log(auctionData);
-
     try {
       // if the form being used for editing product;
       if (editMode && editingAuctionId) {
@@ -92,7 +88,7 @@ const CreateAuction = () => {
           `/listings/${editingAuctionId}`,
           auctionData
         );
-        console.log(updatedAuction?.data?.data);
+
         toast.success("Auction updated successfully");
         navigate(`/auctions/${updatedAuction?.data?.data.auctionId}`, {
           replace: true,
@@ -107,7 +103,7 @@ const CreateAuction = () => {
         navigate(`/auctions/${addedAuction?.data?.data.auctionId}`, {
           replace: true,
         });
-        console.log(addedAuction);
+
         toast.success("Auction created successfully");
         setLoading(false);
       }

@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useSingleUser from "../../hooks/useSingleUser";
 import DashboardTitle from "../../components/dashboard/DashboardTitle";
 import AuctionGrid from "../../components/AuctionGrid";
 import useGetData from "../../hooks/useGetData";
 import CardSkeleton from "../../components/CardSkeleton";
 import NoItemAvailable from "../../components/NoItemAvailable";
+import WentWrong from "../../components/WentWrong";
 
 const MyListings = () => {
   const { singleUser } = useSingleUser();
@@ -18,6 +17,10 @@ const MyListings = () => {
 
   if (isLoading) {
     return <CardSkeleton amount={3} />;
+  }
+
+  if (error) {
+    return <WentWrong />;
   }
   return (
     <div>

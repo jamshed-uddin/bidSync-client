@@ -5,8 +5,6 @@ import useSaveUnsave from "../hooks/useSaveUnsave";
 const SavedItems = () => {
   const { savedItems } = useSaveUnsave();
 
-  console.log(savedItems);
-
   return (
     <div>
       <Title>Saved items</Title>

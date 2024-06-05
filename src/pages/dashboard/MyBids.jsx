@@ -4,6 +4,7 @@ import DashboardTitle from "../../components/dashboard/DashboardTitle";
 import AuctionGrid from "../../components/AuctionGrid";
 import CardSkeleton from "../../components/CardSkeleton";
 import NoItemAvailable from "../../components/NoItemAvailable";
+import WentWrong from "../../components/WentWrong";
 
 const MyBids = () => {
   const { singleUser } = useSingleUser();
@@ -14,10 +15,12 @@ const MyBids = () => {
     isLoading,
   } = useGetData(`/bids/mybids/${singleUser?._id}`, !!singleUser?._id);
 
-  console.log(myBids);
-
   if (isLoading) {
     return <CardSkeleton amount={3} />;
+  }
+
+  if (error) {
+    return <WentWrong />;
   }
 
   return (

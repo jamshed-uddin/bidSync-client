@@ -5,7 +5,7 @@ import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
 
 const Dashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, userLogout } = useAuth();
+  const { userLogout } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -14,7 +14,6 @@ const Dashboard = () => {
     navigate("/");
   };
 
-  console.log(user);
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);

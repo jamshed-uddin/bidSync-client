@@ -10,11 +10,9 @@ const SearchPage = () => {
 
   const debouncedValue = useDebounce(searchParams.get("q") || "", 800);
 
-  console.log(debouncedValue);
   const { data, isLoading } = useGetData(
     `/listings/search?q=${debouncedValue}`
   );
-  console.log(data);
 
   return (
     <div className="lg:mt-7">

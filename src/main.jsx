@@ -16,7 +16,7 @@ import CreateAuction from "./pages/dashboard/CreateAuction.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
-import DataProvider from "./providers/DataProvider.jsx";
+
 import ScrollTop from "./ScrollTop.jsx";
 import Auctions from "./pages/Auctions.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
@@ -65,7 +65,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/savedItems",
-        element: <SavedItems />,
+        element: (
+          <PrivateRoute>
+            <SavedItems />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -133,9 +137,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <DataProvider>
-          <RouterProvider router={router} />
-        </DataProvider>
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>

@@ -43,7 +43,7 @@ yarn install
 ### 3. Set up firebase
 
 - Create a new project on the Firebase Console.
-- Enable Authentication: Go to the Authentication section and enable the sign-in methods you need (e.g., Email/Password).
+- Enable Authentication: Go to the Authentication section and enable the **Email/Password** and **Google** sign-in methods
 - Create a new Web App in your Firebase project to get your Firebase configuration.
 
 **Configure firebase**

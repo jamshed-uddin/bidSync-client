@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  console.log(loading);
+
   useEffect(() => {
     if (user) {
       navigate(from, { replace: true });
@@ -31,12 +31,9 @@ const Login = () => {
   };
 
   const handleUserLogin = async () => {
-    console.log(userCredential);
-
     try {
       await userLogin(userCredential.email, userCredential.password);
     } catch (error) {
-      console.log(error);
       setLoading((p) => !p);
       if (error.message === "Firebase: Error (auth/invalid-credential).") {
         setError("Invalid credential");
@@ -47,14 +44,9 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       const res = await loginWithGoogle();
-      console.log("gooogel login", res);
-      const userBody = { name: res?.user?.displayName, email: res.user?.email };
-      const result = await axios.post(
-        `${import.meta.env.VITE_baseUrl}/user`,
-        userBody
-      );
 
-      console.log(result?.data);
+      const userBody = { name: res?.user?.displayName, email: res.user?.email };
+      await axios.post(`${import.meta.env.VITE_baseUrl}/user`, userBody);
     } catch (error) {
       setLoading((p) => !p);
     }
