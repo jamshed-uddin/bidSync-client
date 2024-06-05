@@ -20,14 +20,27 @@ Follow these steps to get the app running locally:
 
 ```sh
 git clone https://github.com/jamshed-uddin/bidSync-client.git
-cd bidSync-client
+```
 
+### 2.Go to the directory
+
+```sh
+cd bidSync-client
+```
+
+### 2.Install the dependencies
+
+```sh
 npm install
-# or
+```
+
+or
+
+```sh
 yarn install
 ```
 
-### 2. Set up firebase
+### 3. Set up firebase
 
 - Create a new project on the Firebase Console.
 - Enable Authentication: Go to the Authentication section and enable the sign-in methods you need (e.g., Email/Password).
@@ -43,7 +56,7 @@ Create a `.env` file in the root directory with the following Firebase configura
     VITE_MESSAGING_SENDER_ID=your-messaging-sender-id
     VITE_APP_ID=your-app-id
 
-### 3. Start the app
+### 4. Start the app
 
 ```sh
 npm run dev
