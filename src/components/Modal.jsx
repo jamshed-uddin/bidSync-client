@@ -3,8 +3,8 @@ import { HiXMark } from "react-icons/hi2";
 const Modal = ({ children }) => {
   return (
     <div>
-      <dialog id="myModal" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box pb-8">
+      <dialog id="myModal" className="modal modal-bottom sm:modal-middle ">
+        <div className="modal-box pb-8 bg-white">
           <form method="dialog" className="text-end">
             <button id="closeBtn">
               <HiXMark size={25} />

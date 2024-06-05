@@ -45,7 +45,12 @@ const AuctionDetail = () => {
   const { data: bids, isLoading: bidsLoading } = useGetData(`/bids/${id}`);
 
   const placeBidHandler = async () => {
-    if (typeof placedBidAmount !== "number") {
+    if (!user) {
+      closeModal();
+      return toast.error("Please login to place the bid.");
+    }
+
+    if (typeof placedBidAmount !== "number" || !placedBidAmount) {
       setBidError("Please input valid amount.");
     } else if (
       placedBidAmount < auction?.startingPrice ||
@@ -137,7 +142,7 @@ const AuctionDetail = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="shrink-0 ">
               <Button
                 isLoading={bidPlaceLoading}
                 disabled={bidPlaceLoading}

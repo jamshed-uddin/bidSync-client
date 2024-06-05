@@ -5,7 +5,7 @@ import { FaGoogle } from "react-icons/fa";
 import axios from "axios";
 
 const Login = () => {
-  const { user, userLogin, loading, setLoading, loginWithGoogle } = useAuth();
+  const { user, userLogin, loading, loginWithGoogle } = useAuth();
   const [userCredential, setUserCredential] = useState({
     email: "",
     password: "",
@@ -33,9 +33,7 @@ const Login = () => {
   const handleUserLogin = async () => {
     try {
       await userLogin(userCredential.email, userCredential.password);
-      setLoading((p) => !p);
     } catch (error) {
-      setLoading((p) => !p);
       if (error.message === "Firebase: Error (auth/invalid-credential).") {
         setError("Invalid credential");
       }
@@ -48,10 +46,7 @@ const Login = () => {
 
       const userBody = { name: res?.user?.displayName, email: res.user?.email };
       await axios.post(`${import.meta.env.VITE_baseUrl}/user`, userBody);
-      setLoading((p) => !p);
-    } catch (error) {
-      setLoading((p) => !p);
-    }
+    } catch (error) {}
   };
 
   const inputStyle = "input input-bordered w-full  focus:outline-none bg-white";

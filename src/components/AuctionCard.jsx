@@ -10,11 +10,10 @@ import Modal from "./Modal";
 import Button from "./Button";
 import toast, { Toaster } from "react-hot-toast";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import useSingleUser from "../hooks/useSingleUser";
 
 const AuctionCard = ({ item, placedIn }) => {
   const axiosSecure = useAxiosSecure();
-  const { singleUser } = useSingleUser();
+
   const openModal = () => {
     document.getElementById("myModal").showModal();
   };
@@ -55,7 +54,7 @@ const AuctionCard = ({ item, placedIn }) => {
           </div>
         </div>
       </Modal>
-      {placedIn === "dashboard" && singleUser?._id === item?.user?._id && (
+      {placedIn === "dashboard" && (
         <div className="absolute  right-0 top-0 pr-2 z-30 ">
           <div className="flex items-center gap-3 ">
             <Link to={`/dashboard/editAuction/${item?._id}`} replace>

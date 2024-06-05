@@ -53,7 +53,6 @@ const AuthProvider = ({ children }) => {
           });
       } else {
         localStorage.removeItem("jwt");
-        setLoading(false);
       }
       setLoading(false);
     });
