@@ -47,14 +47,16 @@ yarn install
 - Create a new Web App in your Firebase project to get your Firebase configuration.
 
 **Configure firebase**
-Create a `.env` file in the root directory with the following Firebase configuration:
+Create a `.env.local` file in the root directory with the following Firebase configuration:
 
-    VITE_API_KEY=your-api-key
-    VITE_AUTH_DOMAIN=your-auth-domain
-    VITE_PROJECT_ID=your-project-id
-    VITE_STORAGE_BUCKET=your-storage-bucket
-    VITE_MESSAGING_SENDER_ID=your-messaging-sender-id
-    VITE_APP_ID=your-app-id
+VITE_apiKey=apiKey
+VITE_authDomain=authDomain
+VITE_projectId=projectId
+VITE_storageBucket=storageBucket
+VITE_messagingSenderId=messagingSenderId
+VITE_appId=appId
+
+VITE_baseUrl=http://localhost:5000/api
 
 ### 4. Start the app
 

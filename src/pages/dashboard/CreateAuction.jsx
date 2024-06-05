@@ -7,6 +7,18 @@ import DashboardTitle from "../../components/dashboard/DashboardTitle";
 import Button from "../../components/Button";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import toast, { Toaster } from "react-hot-toast";
+
+const categories = [
+  "Paintings",
+  "Jewellery",
+  "Fashion",
+  "Watches",
+  "Coin & stamps",
+  "Car & motorbikes",
+  "Toy & model",
+  "Interior",
+];
+
 const CreateAuction = () => {
   const { id: editingAuctionId } = useParams();
 
@@ -22,6 +34,7 @@ const CreateAuction = () => {
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   // using add product form for editing product by filling the product state with the product that need to be edited.
   useEffect(() => {
@@ -42,12 +55,22 @@ const CreateAuction = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "clossesIn") {
+      setError("");
+      const currentDate = new Date();
+      const targetDate = new Date(value);
+      const difference = targetDate - currentDate;
+      if (difference <= 0) {
+        return setError("Please choose a date from upcoming days");
+      }
+    }
+
     setAuctionData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePhotoURLInputChange = (e, inputIndex) => {
     const value = e.target.value;
-    // const name = e.target.name;
     setAuctionData((prev) => ({
       ...prev,
       photoURL: auctionData.photoURL.map((item, index) =>
@@ -76,7 +99,8 @@ const CreateAuction = () => {
     }));
   };
 
-  const submitProduct = async (e) => {
+  console.log(auctionData);
+  const submitAuction = async (e) => {
     e.preventDefault();
 
     try {
@@ -124,7 +148,7 @@ const CreateAuction = () => {
         {editingAuctionId && editMode ? "Edit auction" : "Add auction"}
       </DashboardTitle>
       <div className="mt-2 lg:w-3/4">
-        <form onSubmit={submitProduct} className="md:space-y-4 mt-5">
+        <form onSubmit={submitAuction} className="md:space-y-4 mt-5">
           <div className="md:flex  gap-4 ">
             <div className="w-full">
               <label htmlFor="" className="block text-lg font-semibold ">
@@ -190,15 +214,19 @@ const CreateAuction = () => {
           </div>
           <div className="md:flex  gap-4 ">
             <div className="w-full">
-              <label htmlFor="" className="block text-lg font-semibold ">
-                Clossed in
+              <label
+                htmlFor=""
+                className=" text-lg font-semibold flex justify-between items-center"
+              >
+                <span>Clossed in</span>{" "}
+                <span className="text-red-600 text-sm ">{error}</span>
               </label>
               <input
                 type="date"
                 placeholder="Closses in"
                 className="input input-bordered w-full  focus:outline-none"
                 name="clossesIn"
-                value={auctionData.clossesIn.split("T").at(0)}
+                value={auctionData?.clossesIn?.split("T").at(0)}
                 onChange={handleInputChange}
                 required
               />
@@ -218,10 +246,11 @@ const CreateAuction = () => {
                 required
               >
                 <option value="">Choose category</option>
-                <option value="art">Art</option>
-                <option value="jwellery">Jwellery</option>
-                <option value="watches">Watches</option>
-                <option value="others">Others</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

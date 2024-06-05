@@ -2,12 +2,9 @@
 
 import { Link } from "react-router-dom";
 
-import axios from "axios";
+import { FiEdit } from "react-icons/fi";
+import { FaRegTrashCan } from "react-icons/fa6";
 
-import {
-  HiOutlinePencilSquare,
-  HiOutlineArchiveBoxXMark,
-} from "react-icons/hi2";
 import calculateDays from "../utils/calculateDays";
 import Modal from "./Modal";
 import Button from "./Button";
@@ -59,18 +56,18 @@ const AuctionCard = ({ item, placedIn }) => {
         </div>
       </Modal>
       {placedIn === "dashboard" && singleUser?._id === item?.user?._id && (
-        <div className="absolute  right-0 top-0 pr-2 z-30">
-          <div className="flex items-center gap-3">
+        <div className="absolute  right-0 top-0 pr-2 z-30 ">
+          <div className="flex items-center gap-3 ">
             <Link to={`/dashboard/editAuction/${item?._id}`} replace>
-              <span className="cursor-pointer  px-3">
-                <HiOutlinePencilSquare size={25} />
+              <span className="text-white p-1 rounded-lg cursor-pointer active:scale-95 shadow-xl">
+                <FiEdit size={25} />
               </span>
             </Link>
             <span
               onClick={openModal}
-              className="cursor-pointer   text-red-600 rounded-xl px-3"
+              className="  text-red-600  p-1 rounded-lg  cursor-pointer active:scale-95 shadow-xl"
             >
-              <HiOutlineArchiveBoxXMark size={25} />
+              <FaRegTrashCan size={25} />
             </span>
           </div>
         </div>
