@@ -51,12 +51,14 @@ const AuctionDetail = () => {
     }
 
     if (typeof placedBidAmount !== "number" || !placedBidAmount) {
-      setBidError("Please input valid amount.");
+      return setBidError("Please enter a valid amount.");
     } else if (
       placedBidAmount < auction?.startingPrice ||
       auction?.highestBid
     ) {
-      setBidError("Amount must be bigger than current bid and starting price.");
+      return setBidError(
+        "Amount must be bigger than current bid and starting price."
+      );
     }
 
     try {
@@ -133,7 +135,7 @@ const AuctionDetail = () => {
               <input
                 type="number"
                 placeholder=""
-                className="input  input-bordered w-full  focus:outline-none bg-white"
+                className="input  input-bordered border-[1.2px] border-black  focus:border-black w-full  focus:outline-none bg-white "
                 name="amount"
                 value={placedBidAmount}
                 onChange={(e) => {
