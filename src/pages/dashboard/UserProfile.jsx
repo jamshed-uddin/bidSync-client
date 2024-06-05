@@ -6,10 +6,10 @@ import useSingleUser from "../../hooks/useSingleUser";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import useGetData from "../../hooks/useGetData";
+import ProfileSkeleton from "../../components/ProfileSkeleton";
 
 const UserProfile = () => {
-  const { user } = useAuth();
-  const { singleUser } = useSingleUser();
+  const { singleUser, singleUserLoading, singleUserRefetch } = useSingleUser();
   const { data: myBids } = useGetData(`/bids/mybids/${singleUser?._id}`);
 
   const { data: myListings } = useGetData(
@@ -17,13 +17,13 @@ const UserProfile = () => {
   );
 
   const [userInfo, setUserInfo] = useState({
-    name: singleUser?.name || "",
-    photoURL: singleUser?.photoURL || "",
+    name: "",
+    photoURL: "",
     address: {
-      country: singleUser?.address?.country || "",
-      city: singleUser?.address?.city || "",
-      addressLineOne: singleUser?.address?.addressLineOne || "",
-      addressLineTwo: singleUser?.address?.addressLineTwo || "",
+      country: "",
+      city: "",
+      addressLineOne: "",
+      addressLineTwo: "",
     },
   });
 
@@ -36,8 +36,6 @@ const UserProfile = () => {
     setUserInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  // console.log(singleUser);
-
   const handleAddressLineInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -47,8 +45,7 @@ const UserProfile = () => {
     }));
   };
 
-  console.log(userInfo);
-
+  // editing profile info
   const submitEditProfile = async (e) => {
     e.preventDefault();
 
@@ -61,14 +58,17 @@ const UserProfile = () => {
       setLoading(false);
       setEditProfile(false);
       toast.success("Profile updated");
+      singleUserRefetch();
     } catch (error) {
       setLoading(false);
       toast.error("Something went wrong!");
       console.log(error);
     }
-
-    console.log(userInfo);
   };
+
+  if (singleUserLoading) {
+    return <ProfileSkeleton />;
+  }
 
   return (
     <div className="mt-3 pb-2 w-full">

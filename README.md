@@ -1,9 +1,50 @@
-# React + Vite
+# BidSync
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+BidSync is an auction app built with React for the frontend and Express for the backend. Firebase is used for authentication.
 
-Currently, two official plugins are available:
+**Server repository:** [https://github.com/jamshed-uddin/bidSync-server](https://github.com/jamshed-uddin/bidSync-server)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-# bidSync-client
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Node.js installed on your machine (v14 or higher)
+- npm or yarn package manager
+- Firebase account and project set up
+
+## Getting Started
+
+Follow these steps to get the app running locally:
+
+### 1. Clone the repository
+
+```sh
+git clone https://github.com/jamshed-uddin/bidSync-client.git
+cd bidSync-client
+
+npm install
+# or
+yarn install
+```
+
+### 2. Set up firebase
+
+- Create a new project on the Firebase Console.
+- Enable Authentication: Go to the Authentication section and enable the sign-in methods you need (e.g., Email/Password).
+- Create a new Web App in your Firebase project to get your Firebase configuration.
+
+**Configure firebase**
+Create a `.env` file in the root directory with the following Firebase configuration:
+
+    VITE_API_KEY=your-api-key
+    VITE_AUTH_DOMAIN=your-auth-domain
+    VITE_PROJECT_ID=your-project-id
+    VITE_STORAGE_BUCKET=your-storage-bucket
+    VITE_MESSAGING_SENDER_ID=your-messaging-sender-id
+    VITE_APP_ID=your-app-id
+
+### 3. Start the app
+
+```sh
+npm run dev
+```
