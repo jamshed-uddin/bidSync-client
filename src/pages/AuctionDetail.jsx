@@ -6,17 +6,24 @@ import Button from "../components/Button";
 import DetailSkeleton from "../components/DetailSkeleton";
 import Modal from "../components/Modal";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { HiOutlineBookmark } from "react-icons/hi2";
+import { HiBookmark } from "react-icons/hi2";
+import { FaChevronRight } from "react-icons/fa6";
+import { FaChevronLeft } from "react-icons/fa6";
+
 import toast, { Toaster } from "react-hot-toast";
+import useSaveUnsave from "../hooks/useSaveUnsave";
+import useGetData from "../hooks/useGetData";
 const AuctionDetail = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
-  const [auction, setAuction] = useState(null);
-  const [bids, setBids] = useState([]);
-  const [bidsLoading, setBidsLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const [bidPlaceLoading, setBidPlaceLoading] = useState(false);
   const [placedBidAmount, setPlacedBidAmount] = useState(null);
   const [bidError, setBidError] = useState("");
+  const { handleAuctionSaveUnsave, isSaved } = useSaveUnsave();
+  const [isAuctionSaved, setIsAuctionSaved] = useState(isSaved(id));
+  const [photoIndex, setPhotoIndex] = useState(0);
 
   const openModal = () => {
     document.getElementById("myModal").showModal();
@@ -25,40 +32,8 @@ const AuctionDetail = () => {
   const closeModal = () => {
     document.getElementById("closeBtn").click();
   };
-  useEffect(() => {
-    const loadHeroProduct = async () => {
-      try {
-        setLoading(true);
-        const data = await axios.get(
-          `${import.meta.env.VITE_baseUrl}/listings/${id}`
-        );
-
-        setAuction(data?.data.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const loadBidData = async () => {
-      try {
-        setBidsLoading(true);
-        const data = await axios.get(
-          `${import.meta.env.VITE_baseUrl}/bids/${auction?._id}`
-        );
-        setBids(data?.data?.data);
-        setBidsLoading(false);
-        console.log(data);
-      } catch (error) {
-        setBidsLoading(false);
-
-        console.log(error);
-      }
-    };
-
-    loadHeroProduct();
-    loadBidData();
-  }, [auction?._id, id]);
+  const { data: auction, isLoading: loading } = useGetData(`/listings/${id}`);
+  const { data: bids, isLoading: bidsLoading } = useGetData(`/bids/${id}`);
 
   const placeBidHandler = async () => {
     console.log("hello");
@@ -85,6 +60,8 @@ const AuctionDetail = () => {
       setBidPlaceLoading(false);
     }
   };
+
+  console.log(isAuctionSaved);
 
   if (loading) {
     return <DetailSkeleton />;
@@ -156,16 +133,57 @@ const AuctionDetail = () => {
           )}
         </div>
       </Modal>
-      <div className="md:flex  h-full gap-5 relative">
+      <div className="md:flex   gap-5 relative">
         {/* image */}
-        <div className="md:w-1/2 overflow-hidden  h-1/2 lg:sticky top-8">
-          <div className="h-full w-full overflow-hidden">
-            <img
-              className="h-full w-full object-cover"
-              src={auction?.photoURL}
-              alt={`Image of ${auction?.title}`}
-              loading="lazy"
-            />
+        <div className="md:w-1/2 shrink-0 overflow-hidden  h-screen lg:sticky top-8">
+          <div className="h-full w-full overflow-hidden relative">
+            {auction?.photoURL.map((photo, index) => (
+              <img
+                key={index}
+                className={`h-full w-full object-cover transition-opacity absolute duration-500 ${
+                  photoIndex === index ? "opacity-100" : "opacity-0"
+                }`}
+                src={photo}
+                alt={`Image of ${auction?.title}`}
+                loading="lazy"
+              />
+            ))}
+            {auction?.photoURL.length > 1 && (
+              <>
+                <span
+                  onClick={() => setPhotoIndex((p) => p + 1)}
+                  className={`absolute top-1/2  bg-white py-1 rounded-xl right-1 -translate-y-1/2 ${
+                    photoIndex + 1 === auction?.photoURL.length
+                      ? "hidden"
+                      : "absolute"
+                  }`}
+                >
+                  <FaChevronRight size={25} />
+                </span>
+                <span
+                  onClick={() => setPhotoIndex((p) => p - 1)}
+                  className={` top-1/2  bg-white py-1 rounded-xl left-1 -translate-y-1/2 ${
+                    photoIndex === 0 ? "hidden" : "absolute"
+                  }`}
+                >
+                  <FaChevronLeft size={25} />
+                </span>
+              </>
+            )}
+            <span
+              onClick={() => {
+                toast(isAuctionSaved ? "Auction unsaved" : "Auction saved");
+                setIsAuctionSaved((p) => !p);
+                handleAuctionSaveUnsave(id, isAuctionSaved ? false : true);
+              }}
+              className="absolute top-5 right-5 p-1 rounded-lg bg-white cursor-pointer active:scale-95 shadow-xl"
+            >
+              {isAuctionSaved ? (
+                <HiBookmark size={25} />
+              ) : (
+                <HiOutlineBookmark size={25} />
+              )}
+            </span>
           </div>
         </div>
 
@@ -223,7 +241,7 @@ const AuctionDetail = () => {
           </div>
 
           {/* buys protection */}
-          <div className="mt-6 border-[1px] border-black p-2 rounded-xl">
+          <div className="mt-6 border-[1px] border-black p-2 rounded-xl text-sm">
             <h2 className="text-xl mb-1">BidSync buys protection</h2>
 
             <ul className="list-disc ml-5">

@@ -42,7 +42,7 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to={"/"}>
-          <h1 className="text-lg lg:text-2xl font-medium">BidSync</h1>
+          <h1 className="text-lg lg:text-2xl font-bold">BidSync</h1>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">

@@ -5,7 +5,7 @@ import Button from "../Button";
 
 const SellWithBidSync = () => {
   return (
-    <div className="lg:flex gap-3 items-center space-y-3 lg:space-y-0">
+    <div className="lg:flex gap-3 items-center space-y-3 lg:space-y-0 py-6">
       <div className="lg:h-[60vh]  lg:w-1/2 bg-gray-100 p-4 rounded-2xl">
         <div className="h-full w-full">
           <img

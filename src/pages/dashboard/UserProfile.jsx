@@ -5,10 +5,16 @@ import Button from "../../components/Button";
 import useSingleUser from "../../hooks/useSingleUser";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import useGetData from "../../hooks/useGetData";
 
 const UserProfile = () => {
   const { user } = useAuth();
   const { singleUser } = useSingleUser();
+  const { data: myBids } = useGetData(`/bids/mybids/${singleUser?._id}`);
+
+  const { data: myListings } = useGetData(
+    `/listings/myListings/${singleUser?._id}`
+  );
 
   const [userInfo, setUserInfo] = useState({
     name: singleUser?.name || "",
@@ -78,7 +84,9 @@ const UserProfile = () => {
               Edit profile
             </button>
           </div>
+
           <div className=" flex flex-col items-center ">
+            {/* profile image */}
             <div className="avatar placeholder  ">
               <div className="bg-neutral text-neutral-content rounded-full w-24">
                 {singleUser?.photoURL ? (
@@ -96,7 +104,8 @@ const UserProfile = () => {
                 )}
               </div>
             </div>
-            <div>
+            {/* name and email */}
+            <div className="text-center">
               <h1
                 className="
         text-xl font-semibold"
@@ -107,7 +116,18 @@ const UserProfile = () => {
                 {singleUser?.email || "User email: Not available"}
               </h4>
             </div>
-
+            {/* number of bid and auction */}
+            <div className="md:flex gap-4 w-full md:w-1/2 text-center my-4  justify-center">
+              <div className="px-9 py-3 rounded-xl shadow-md text-xl shrink-0 ">
+                <h1>Bid placed</h1>
+                <h3>{myBids?.length || "0"}</h3>
+              </div>
+              <div className="px-9 py-3 rounded-xl shadow-md text-xl shrink-0">
+                <h1>My auction</h1>
+                <h3>{myListings?.length || "0"}</h3>
+              </div>
+            </div>
+            {/* other user detail */}
             <div className="w-full flex flex-col items-center border-t-2 pt-4 mt-2">
               {Object.keys(singleUser?.address || {})?.map((key, index) => (
                 <div key={index} className="flex gap-4 items-center">

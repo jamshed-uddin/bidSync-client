@@ -24,6 +24,9 @@ import Sell from "./pages/Sell.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import SavedItems from "./pages/SavedItems.jsx";
 import AuctionDetail from "./pages/AuctionDetail.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -129,9 +132,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <DataProvider>
-        <RouterProvider router={router} />
-      </DataProvider>
+      <QueryClientProvider client={queryClient}>
+        <DataProvider>
+          <RouterProvider router={router} />
+        </DataProvider>
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>
 );

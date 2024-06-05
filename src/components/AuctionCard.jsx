@@ -11,10 +11,13 @@ import {
 import calculateDays from "../utils/calculateDays";
 import Modal from "./Modal";
 import Button from "./Button";
+import toast, { Toaster } from "react-hot-toast";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useSingleUser from "../hooks/useSingleUser";
 
 const AuctionCard = ({ item, placedIn }) => {
-  const handleAuctionDelete = async () => {};
-
+  const axiosSecure = useAxiosSecure();
+  const { singleUser } = useSingleUser();
   const openModal = () => {
     document.getElementById("myModal").showModal();
   };
@@ -22,8 +25,23 @@ const AuctionCard = ({ item, placedIn }) => {
   const closeModal = () => {
     document.getElementById("closeBtn").click();
   };
+  const handleAuctionDelete = async () => {
+    try {
+      await axiosSecure.delete(`/listings/${item._id}`);
+      toast.success("Auction deleted.");
+      closeModal();
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
+  };
+
   return (
     <div className=" relative shadow-md p-2 rounded-xl overflow-hidden">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{ duration: 5000 }}
+      />
       <Modal>
         <div>
           <h1 className="text-2xl">
@@ -40,29 +58,28 @@ const AuctionCard = ({ item, placedIn }) => {
           </div>
         </div>
       </Modal>
-      {placedIn === "dashboard" && (
-        <div className="absolute  right-0 top-2 pr-2 z-30">
-          <div className="flex gap-3">
-            <Link to={`/dashboard/editAuction/${item._id}`} replace>
-              <span className="cursor-pointer border-[1.3px] border-black rounded-xl px-3 flex items-center gap-1">
-                <HiOutlinePencilSquare />
-                <span>Edit</span>
+      {placedIn === "dashboard" && singleUser?._id === item?.user?._id && (
+        <div className="absolute  right-0 top-0 pr-2 z-30">
+          <div className="flex items-center gap-3">
+            <Link to={`/dashboard/editAuction/${item?._id}`} replace>
+              <span className="cursor-pointer  px-3">
+                <HiOutlinePencilSquare size={25} />
               </span>
             </Link>
             <span
               onClick={openModal}
-              className="cursor-pointer flex items-center gap-1 border-[1.3px] text-red-600 border-red-600 rounded-xl px-3"
+              className="cursor-pointer   text-red-600 rounded-xl px-3"
             >
-              <HiOutlineArchiveBoxXMark /> <span>Delete</span>
+              <HiOutlineArchiveBoxXMark size={25} />
             </span>
           </div>
         </div>
       )}
-      <Link to={`/auctions/${item._id}`} preventScrollReset={true}>
+      <Link to={`/auctions/${item?._id}`} preventScrollReset={true}>
         <div className="h-80 w-full  ">
           <img
             className="h-full w-full object-cover"
-            src={item?.photoURL}
+            src={item?.photoURL.at(0)}
             alt={`Image of ${item?.title}`}
             loading="lazy"
           />
@@ -81,7 +98,7 @@ const AuctionCard = ({ item, placedIn }) => {
               </h1>
             </div>
 
-            <h1>{calculateDays(item.clossesIn, true)}</h1>
+            <h1>{calculateDays(item?.clossesIn, true)}</h1>
           </div>
         </div>
       </Link>

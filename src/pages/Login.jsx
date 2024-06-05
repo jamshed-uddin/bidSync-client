@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { FaGoogle } from "react-icons/fa";
+import axios from "axios";
 
 const Login = () => {
   const { user, userLogin, loading, setLoading, loginWithGoogle } = useAuth();
@@ -45,7 +46,15 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      await loginWithGoogle();
+      const res = await loginWithGoogle();
+      console.log("gooogel login", res);
+      const userBody = { name: res?.user?.displayName, email: res.user?.email };
+      const result = await axios.post(
+        `${import.meta.env.VITE_baseUrl}/user`,
+        userBody
+      );
+
+      console.log(result?.data);
     } catch (error) {
       setLoading((p) => !p);
     }
@@ -111,7 +120,7 @@ const Login = () => {
         <div className="text-center mt-3">
           <div className="divider">Or</div>
           <h2 className="text-xl font-semibold">Continue with</h2>
-          <div className="flex justify-center items-center gap-3">
+          <div className=" mt-2">
             <button onClick={handleGoogleLogin} className="btn btn-sm ">
               <FaGoogle />
             </button>

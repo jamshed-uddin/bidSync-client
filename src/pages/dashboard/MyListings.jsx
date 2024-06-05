@@ -3,30 +3,30 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useSingleUser from "../../hooks/useSingleUser";
 import DashboardTitle from "../../components/dashboard/DashboardTitle";
 import AuctionGrid from "../../components/AuctionGrid";
+import useGetData from "../../hooks/useGetData";
+import CardSkeleton from "../../components/CardSkeleton";
+import NoItemAvailable from "../../components/NoItemAvailable";
 
 const MyListings = () => {
-  const [myListings, setMyListings] = useState([]);
-  const axiosSecure = useAxiosSecure();
   const { singleUser } = useSingleUser();
 
-  useEffect(() => {
-    const loadMyListings = async () => {
-      try {
-        const result = await axiosSecure.get(
-          `/listings/myListings/${singleUser?._id}`
-        );
-        setMyListings(result.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const {
+    data: myListings,
+    isLoading,
+    error,
+  } = useGetData(`/listings/myListings/${singleUser?._id}`, !!singleUser?._id);
 
-    loadMyListings();
-  }, [axiosSecure, singleUser?._id]);
+  if (isLoading) {
+    return <CardSkeleton amount={3} />;
+  }
   return (
     <div>
       <DashboardTitle>My listings</DashboardTitle>
-      <AuctionGrid items={myListings} placedIn={"dashboard"} />
+      {!myListings?.length ? (
+        <NoItemAvailable />
+      ) : (
+        <AuctionGrid items={myListings} placedIn={"dashboard"} />
+      )}
     </div>
   );
 };

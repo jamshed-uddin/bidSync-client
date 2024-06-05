@@ -29,7 +29,12 @@ const useAxiosSecure = () => {
     },
     async function (error) {
       const status = error.response.status;
-      if (status === 401 || status === 403) {
+      const message = error?.response?.data?.message;
+      if (
+        (status === 401 || status === 403) &&
+        (message === "Unauthorized action.Invalid token" ||
+          message === "Unauthorized action.No token")
+      ) {
         await userLogout();
         navigate("/");
       }

@@ -12,7 +12,7 @@ const Footer = () => {
 
       <div className="md:flex justify-between  space-y-8 md:space-y-0">
         <div>
-          <h1 className="text-lg lg:text-2xl font-medium text-center md:text-start">
+          <h1 className="text-lg lg:text-2xl font-bold text-center md:text-start">
             BidSync
           </h1>
           <div className="flex justify-evenly mt-1">
@@ -31,23 +31,23 @@ const Footer = () => {
         <div>
           <ul>
             <li>
-              <Link>Auctions</Link>
+              <Link to={"/auctions"}>Auctions</Link>
             </li>
             <li>
-              <Link>Categories</Link>
+              <Link to={"/categories"}>Categories</Link>
             </li>
             <li>
-              <Link>Sell</Link>
+              <Link to={"/sell"}>Sell</Link>
             </li>
           </ul>
         </div>
         <div>
           <ul>
             <li>
-              <Link>Sign in</Link>
+              <Link to={"/login"}>Sign in</Link>
             </li>
             <li>
-              <Link>Register</Link>
+              <Link to={"/signup"}>Register</Link>
             </li>
 
             <li>Terms & conditon</li>

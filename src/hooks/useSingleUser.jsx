@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from "react";
 import useAuth from "./useAuth";
 import axios from "axios";
 
+import { useQuery } from "@tanstack/react-query";
+
 const useSingleUser = () => {
   const { user } = useAuth();
-  const [singleUser, setSingleUser] = useState();
 
-  useEffect(() => {
-    const loadData = async () => {
-      const data = await axios.get(
+  const { data: singleUser } = useQuery({
+    queryKey: ["singleUser", user],
+    queryFn: async () => {
+      const result = await axios.get(
         `${import.meta.env.VITE_baseUrl}/user/${user?.email}`
       );
-      setSingleUser(data?.data.data);
-
-      console.log(data);
-    };
-
-    loadData();
-  }, [user]);
+      return result?.data;
+    },
+    enabled: !!user,
+  });
 
   return { singleUser };
 };

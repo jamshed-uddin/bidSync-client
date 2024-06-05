@@ -1,6 +1,9 @@
 import { useSearchParams } from "react-router-dom";
 import Searchbar from "../components/searchPage/SearchBar";
 import useDebounce from "../hooks/useDebounce";
+import useGetData from "../hooks/useGetData";
+import AuctionGrid from "../components/AuctionGrid";
+import CardSkeleton from "../components/CardSkeleton";
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -8,20 +11,25 @@ const SearchPage = () => {
   const debouncedValue = useDebounce(searchParams.get("q") || "", 800);
 
   console.log(debouncedValue);
+  const { data, isLoading } = useGetData(
+    `/listings/search?q=${debouncedValue}`
+  );
+  console.log(data);
 
   return (
-    <div className="mt-7">
-      <div className="w-1/2 mx-auto">
+    <div className="lg:mt-7">
+      <div className="lg:w-1/2 mx-auto">
         <Searchbar
           searchQuery={searchParams.get("q") || ""}
           setSearchQuery={setSearchParams}
         />
       </div>
       <div className="mt-2 text-center">
-        {!searchParams.get("q") && (
+        {!debouncedValue && (
           <h1 className="text-xl font-semibold">Search for auctions</h1>
         )}
       </div>
+      {isLoading ? <CardSkeleton amount={3} /> : <AuctionGrid items={data} />}
     </div>
   );
 };

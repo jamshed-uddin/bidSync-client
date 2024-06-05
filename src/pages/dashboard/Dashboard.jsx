@@ -22,7 +22,7 @@ const Dashboard = () => {
   return (
     <div className="md:flex  m-2 md:m-0 max-h-screen overflow-y-auto">
       <div
-        className={`bg-gray-200 shrink-0 w-fit pl-8 pr-5  h-screen  absolute  top-0 bottom-0 z-50 transition-all duration-500 md:sticky md:top-0 md:left-0 md:bottom-0 ${
+        className={`bg-gray-200 shrink-0 w-fit pl-8 pr-5  h-screen  absolute  top-0 bottom-0 z-50 transition-all duration-500 md:sticky md:top-0 md:left-0 md:bottom-0 shadow-xl ${
           menuOpen ? "left-0" : "-left-56"
         }  `}
       >

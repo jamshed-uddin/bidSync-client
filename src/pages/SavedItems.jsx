@@ -1,19 +1,16 @@
+import AuctionGrid from "../components/AuctionGrid";
 import Title from "../components/Title";
+import useSaveUnsave from "../hooks/useSaveUnsave";
 
 const SavedItems = () => {
+  const { savedItems } = useSaveUnsave();
+
+  console.log(savedItems);
+
   return (
     <div>
-      <div>
-        <Title>Saved items</Title>
-        <div className="grid  lg:grid-cols-3 gap-4 my-6">
-          {[1, 2, 3, 4].map((item, index) => (
-            <div className="bg-gray-100 p-12" key={index}>
-              {" "}
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
+      <Title>Saved items</Title>
+      <AuctionGrid items={savedItems} />
     </div>
   );
 };
