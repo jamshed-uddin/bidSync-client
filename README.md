@@ -49,14 +49,14 @@ yarn install
 **Configure firebase**
 Create a `.env.local` file in the root directory with the following Firebase configuration:
 
-VITE_apiKey=apiKey
+```env
+VITE_apiKey=apiKey 
 VITE_authDomain=authDomain
 VITE_projectId=projectId
 VITE_storageBucket=storageBucket
 VITE_messagingSenderId=messagingSenderId
 VITE_appId=appId
-
-VITE_baseUrl=http://localhost:5000/api
+```
 
 ### 4. Start the app
 
