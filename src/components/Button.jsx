@@ -12,7 +12,7 @@ const Button = ({ children, disabled, clickFunc, type, style, isLoading }) => {
           : "bg-[#0f0e0e] text-white border-[1.5px] border-black"
       } ${
         isLoading || (disabled && "opacity-80 cursor-not-allowed")
-      } px-4 py-2 text-lg active:scale-95`}
+      } px-4 py-1 text-lg active:scale-95`}
     >
       {children}
 

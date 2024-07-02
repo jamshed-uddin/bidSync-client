@@ -7,6 +7,8 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import useGetData from "../../hooks/useGetData";
 import ProfileSkeleton from "../../components/ProfileSkeleton";
+import AddBankInfo from "../../components/dashboard/AddBankInfo";
+import { FiEdit } from "react-icons/fi";
 
 const UserProfile = () => {
   const { singleUser, singleUserLoading, singleUserRefetch } = useSingleUser();
@@ -82,66 +84,81 @@ const UserProfile = () => {
         <>
           <div className="flex justify-end">
             <button onClick={() => setEditProfile(true)} className="btn btn-sm">
-              Edit profile
+              <span>
+                <FiEdit />
+              </span>{" "}
+              <span> Edit profile</span>
             </button>
           </div>
 
-          <div className=" flex flex-col items-center ">
-            {/* profile image */}
-            <div className="avatar placeholder  ">
-              <div className="bg-neutral text-neutral-content rounded-full w-24">
-                {singleUser?.photoURL ? (
-                  <img
-                    className="w-full object-cover"
-                    src={singleUser?.photoURL}
-                    alt="Profile photo"
-                  />
-                ) : (
-                  <span className="text-xl">
-                    {singleUser?.name
-                      ? singleUser?.name.at(0).toUpperCase()
-                      : "Image"}
-                  </span>
-                )}
+          <div className="  ">
+            <div className="flex items-center gap-4">
+              {/* profile image */}
+              <div className="avatar placeholder  ">
+                <div className="bg-neutral text-neutral-content rounded-full w-24">
+                  {singleUser?.photoURL ? (
+                    <img
+                      className="w-full object-cover"
+                      src={singleUser?.photoURL}
+                      alt="Profile photo"
+                    />
+                  ) : (
+                    <span className="text-xl">
+                      {singleUser?.name
+                        ? singleUser?.name.at(0).toUpperCase()
+                        : "Image"}
+                    </span>
+                  )}
+                </div>
+              </div>
+              {/* name and email */}
+              <div className="">
+                <h1
+                  className="
+        lg:text-3xl text-2xl font-semibold"
+                >
+                  {singleUser?.name || "Users name"}
+                </h1>
+                <h4 className="font-light">
+                  {singleUser?.email || "User email: Not available"}
+                </h4>
               </div>
             </div>
-            {/* name and email */}
-            <div className="text-center">
-              <h1
-                className="
-        text-xl font-semibold"
-              >
-                {singleUser?.name || "Users name"}
-              </h1>
-              <h4 className="font-light">
-                {singleUser?.email || "User email: Not available"}
-              </h4>
-            </div>
             {/* number of bid and auction */}
-            <div className="md:flex gap-4 w-full md:w-1/2 text-center my-4  justify-center">
+            <div className="md:flex gap-4 w-full md:w-1/2  my-4  ">
               <div className="px-9 py-3 rounded-xl shadow-md text-xl shrink-0 ">
-                <h1>Bid placed</h1>
+                <h1 className="font-semibold ">Bid placed</h1>
                 <h3>{myBids?.length || "0"}</h3>
               </div>
               <div className="px-9 py-3 rounded-xl shadow-md text-xl shrink-0">
-                <h1>My auction</h1>
+                <h1 className="font-semibold ">My auction</h1>
                 <h3>{myListings?.length || "0"}</h3>
               </div>
             </div>
             {/* other user detail */}
-            <div className="w-full flex flex-col items-center border-t-2 pt-4 mt-2">
-              {Object.keys(singleUser?.address || {})?.map((key, index) => (
-                <div key={index} className="flex gap-4 items-center">
-                  <h1 className="text-lg font-semibold">
-                    {key === "addressLineOne"
-                      ? "Address line 1"
-                      : key === "addressLineTwo"
-                      ? "Address line 2"
-                      : key.charAt(0).toUpperCase() + key.slice(1)}
-                  </h1>
-                  <h2>{singleUser?.address[key] || "Not available"}</h2>
-                </div>
-              ))}
+            <div className="w-full border-t-2 pt-4 mt-2 space-y-4">
+              {/* address */}
+              <div>
+                <h1 className="text-3xl mb-4 font-semibold">Address</h1>
+                {Object.keys(singleUser?.address || {})?.map((key, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-4 items-center text-lg mb-2"
+                  >
+                    <h1 className="text-lg font-semibold w-1/2">
+                      {key === "addressLineOne"
+                        ? "Address line 1"
+                        : key === "addressLineTwo"
+                        ? "Address line 2"
+                        : key.charAt(0).toUpperCase() + key.slice(1)}
+                    </h1>
+                    <h2>{singleUser?.address[key] || "Not available"}</h2>
+                  </div>
+                ))}
+              </div>
+
+              {/* back info */}
+              <AddBankInfo />
             </div>
           </div>
         </>
