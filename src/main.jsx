@@ -25,6 +25,11 @@ import SearchPage from "./pages/SearchPage.jsx";
 import SavedItems from "./pages/SavedItems.jsx";
 import AuctionDetail from "./pages/AuctionDetail.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import WonAuctions from "./pages/dashboard/WonAuctions.jsx";
+import Overview from "./pages/dashboard/Overview.jsx";
+import ManageAuctions from "./pages/dashboard/ManageAuctions.jsx";
+import Payments from "./pages/dashboard/Payments.jsx";
+import Shipping from "./pages/dashboard/Shipping.jsx";
 
 const queryClient = new QueryClient();
 
@@ -98,6 +103,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "overview",
+        element: (
+          <PrivateRoute>
+            <Overview />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "myListings",
         element: (
           <PrivateRoute>
@@ -114,6 +127,22 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "wonAuctions",
+        element: (
+          <PrivateRoute>
+            <WonAuctions />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manageAuctions",
+        element: (
+          <PrivateRoute>
+            <ManageAuctions />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "createAuction",
         element: (
           <PrivateRoute>
@@ -126,6 +155,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <CreateAuction />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payments",
+        element: (
+          <PrivateRoute>
+            <Payments />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "shipping",
+        element: (
+          <PrivateRoute>
+            <Shipping />
           </PrivateRoute>
         ),
       },

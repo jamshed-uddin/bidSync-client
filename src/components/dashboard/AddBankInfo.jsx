@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSingleUser from "../../hooks/useSingleUser";
 import Button from "../Button";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -7,8 +7,25 @@ import toast, { Toaster } from "react-hot-toast";
 
 const AddBankInfo = () => {
   const { singleUser } = useSingleUser();
-
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (singleUser.bankInfoAdded) return;
+
+    const loadStatus = async () => {
+      try {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_baseUrl}/payment/connectAndOnboardUser`,
+          { userId: singleUser?._id }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadStatus();
+  }, [singleUser?._id, singleUser.bankInfoAdded, singleUser?.email]);
+
   const onboardAndConnectUser = async () => {
     try {
       setLoading(true);

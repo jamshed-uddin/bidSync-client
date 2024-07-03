@@ -5,7 +5,7 @@ const useDebounce = (value, delay = 500) => {
 
   useEffect(() => {
     const timeId = setTimeout(() => {
-      setDebouncedValue(value);
+      setDebouncedValue(value?.trim());
     }, delay);
 
     return () => {

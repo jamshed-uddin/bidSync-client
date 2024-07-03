@@ -148,7 +148,7 @@ const CreateAuction = () => {
       <DashboardTitle>
         {editingAuctionId && editMode ? "Edit auction" : "Add auction"}
       </DashboardTitle>
-      <div className="mt-2 lg:w-3/4">
+      <div className="mt-2 ">
         <form onSubmit={submitAuction} className="md:space-y-4 mt-5">
           <div className="md:flex  gap-4 ">
             <div className="w-full">
