@@ -10,9 +10,11 @@ import Modal from "./Modal";
 import Button from "./Button";
 import toast, { Toaster } from "react-hot-toast";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import useSingleUser from "../hooks/useSingleUser";
 
 const AuctionCard = ({ item, placedIn }) => {
   const axiosSecure = useAxiosSecure();
+  const { singleUser } = useSingleUser();
 
   const openModal = () => {
     document.getElementById("myModal").showModal();
@@ -54,7 +56,7 @@ const AuctionCard = ({ item, placedIn }) => {
           </div>
         </div>
       </Modal>
-      {placedIn === "dashboard" && (
+      {placedIn === "dashboard" && item?.user?._id === singleUser?._id && (
         <div className="absolute  right-0 top-0 pr-2 z-30 ">
           <div className="flex items-center gap-3 ">
             <Link to={`/dashboard/editAuction/${item?._id}`} replace>
@@ -75,7 +77,7 @@ const AuctionCard = ({ item, placedIn }) => {
         <div className="h-80 w-full  ">
           <img
             className="h-full w-full object-cover"
-            src={item?.photoURL.at(0)}
+            src={item?.photoURL?.at(0)}
             alt={`Image of ${item?.title}`}
             loading="lazy"
           />

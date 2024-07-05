@@ -42,7 +42,7 @@ const Dashboard = () => {
   const linkStyle = "flex items-center gap-2 pl-2 ";
 
   return (
-    <div className="md:flex  m-2 md:m-0 max-h-screen overflow-y-auto">
+    <div className="md:flex  md:m-0 max-h-screen overflow-y-auto">
       <div
         className={`bg-gray-100 shrink-0 w-2/3 md:w-[30%] lg:w-[20%] pl-8 pr-5  h-screen  absolute  top-0 bottom-0 z-50 transition-all duration-500 lg:sticky lg:top-0 lg:left-0 lg:bottom-0 shadow-xl ${
           menuOpen ? "left-0" : "-left-80"
@@ -69,7 +69,7 @@ const Dashboard = () => {
                 to={"/dashboard/myListings"}
                 className={` ${activeRouteStyle("mylistings")} ${linkStyle}`}
               >
-                <IoListOutline /> My Listings
+                <GoTasklist /> My Listings
               </Link>
             </li>
             <li>
@@ -88,16 +88,7 @@ const Dashboard = () => {
                 <IoTrophyOutline /> Won Auctions
               </Link>
             </li>
-            <li>
-              <Link
-                to={"/dashboard/manageAuctions"}
-                className={` ${activeRouteStyle(
-                  "managelistings"
-                )} ${linkStyle}`}
-              >
-                <GoTasklist /> Manage Auctions
-              </Link>
-            </li>
+
             <li>
               <Link
                 to={"/dashboard/createAuction"}
@@ -133,7 +124,7 @@ const Dashboard = () => {
             </li>
           </ul>
 
-          <ul className="text-xl   space-y-3 mb-6 ">
+          <ul className="text-xl   space-y-3 pb-6">
             <li>
               <Link to={"/"} className={linkStyle}>
                 <IoHomeOutline /> Home

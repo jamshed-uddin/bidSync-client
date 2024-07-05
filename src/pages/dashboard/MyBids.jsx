@@ -13,7 +13,7 @@ const MyBids = () => {
     data: myBids,
     error,
     isLoading,
-  } = useGetData(`/bids/mybids/${singleUser?._id}`, !!singleUser?._id);
+  } = useGetData(`/bids/myBids/${singleUser?._id}`, !!singleUser?._id);
 
   if (isLoading) {
     return <CardSkeleton amount={3} />;
@@ -26,11 +26,7 @@ const MyBids = () => {
   return (
     <div>
       <DashboardTitle>My bids</DashboardTitle>
-      {!myBids?.length ? (
-        <NoItemAvailable />
-      ) : (
-        <AuctionGrid items={myBids?.map((item) => item.auctionId)} />
-      )}
+      {!myBids?.length ? <NoItemAvailable /> : <AuctionGrid items={myBids} />}
     </div>
   );
 };

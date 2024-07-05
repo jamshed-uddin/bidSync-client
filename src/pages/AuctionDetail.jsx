@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import calculateDays from "../utils/calculateDays";
 import Button from "../components/Button";
@@ -16,9 +16,11 @@ import useSaveUnsave from "../hooks/useSaveUnsave";
 import useGetData from "../hooks/useGetData";
 import WentWrong from "../components/WentWrong";
 import useAuth from "../hooks/useAuth";
+import useSingleUser from "../hooks/useSingleUser";
 const AuctionDetail = () => {
   const { id } = useParams();
   const { user, loading: userLoading } = useAuth();
+  const { singleUser } = useSingleUser();
   const axiosSecure = useAxiosSecure();
 
   const [bidPlaceLoading, setBidPlaceLoading] = useState(false);
@@ -227,13 +229,28 @@ const AuctionDetail = () => {
                 <span className="text-sm">$</span>
                 {auction?.highestBid || auction?.startingPrice}
               </h1>
-              <h1 className="mt-1">{calculateDays(auction?.clossesIn)}</h1>
+              <h1 className="mt-1">
+                {calculateDays(auction?.clossesIn) === "Auction closed"
+                  ? `Payment Deadline: ${calculateDays(
+                      auction?.paymentDeadline
+                    )}`
+                  : calculateDays(auction?.clossesIn)}
+              </h1>
             </div>
             {calculateDays(auction?.clossesIn) !== "Auction closed" && (
               <div>
                 <Button clickFunc={openModal}>Place bid</Button>
               </div>
             )}
+
+            {calculateDays(auction?.clossesIn) === "Auction closed" &&
+              auction?.highestBidder === singleUser?._id && (
+                <div>
+                  <Link to={`/dashboard/checkout/${auction?._id}`}>
+                    <Button>Checkout</Button>{" "}
+                  </Link>
+                </div>
+              )}
           </div>
 
           {/* bidders */}

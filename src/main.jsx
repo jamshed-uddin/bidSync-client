@@ -27,9 +27,9 @@ import AuctionDetail from "./pages/AuctionDetail.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WonAuctions from "./pages/dashboard/WonAuctions.jsx";
 import Overview from "./pages/dashboard/Overview.jsx";
-import ManageAuctions from "./pages/dashboard/ManageAuctions.jsx";
 import Payments from "./pages/dashboard/Payments.jsx";
 import Shipping from "./pages/dashboard/Shipping.jsx";
+import Checkout from "./pages/dashboard/Checkout.jsx";
 
 const queryClient = new QueryClient();
 
@@ -134,14 +134,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "manageAuctions",
-        element: (
-          <PrivateRoute>
-            <ManageAuctions />
-          </PrivateRoute>
-        ),
-      },
+
       {
         path: "createAuction",
         element: (
@@ -163,6 +156,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Payments />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "checkout/:id",
+        element: (
+          <PrivateRoute>
+            <Checkout />
           </PrivateRoute>
         ),
       },
