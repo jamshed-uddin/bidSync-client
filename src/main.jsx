@@ -30,6 +30,7 @@ import Overview from "./pages/dashboard/Overview.jsx";
 import Payments from "./pages/dashboard/Payments.jsx";
 import Shipping from "./pages/dashboard/Shipping.jsx";
 import Checkout from "./pages/dashboard/Checkout.jsx";
+import PaymentSuccess from "./pages/dashboard/PaymentSuccess.jsx";
 
 const queryClient = new QueryClient();
 
@@ -156,6 +157,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Payments />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "paymentSuccess",
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess />
           </PrivateRoute>
         ),
       },

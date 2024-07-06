@@ -17,6 +17,7 @@ import useGetData from "../hooks/useGetData";
 import WentWrong from "../components/WentWrong";
 import useAuth from "../hooks/useAuth";
 import useSingleUser from "../hooks/useSingleUser";
+import ImageCarousel from "../components/ImageCarousel";
 const AuctionDetail = () => {
   const { id } = useParams();
   const { user, loading: userLoading } = useAuth();
@@ -77,7 +78,7 @@ const AuctionDetail = () => {
       setBidPlaceLoading(false);
     }
   };
-
+  console.log(auction);
   const handleSaveUnsave = () => {
     if (!user && !userLoading) {
       return toast.error("Please login to save auction");
@@ -164,57 +165,26 @@ const AuctionDetail = () => {
       <div className="md:flex   gap-5 relative">
         {/* image */}
         <div className="md:w-1/2 shrink-0 overflow-hidden h-[55vh]  lg:h-[90vh] lg:sticky top-8  mb-5 lg:mb-0">
-          <div className="h-full w-full overflow-hidden relative">
-            {auction?.photoURL.map((photo, index) => (
-              <img
-                key={index}
-                className={`h-full w-full object-cover transition-opacity absolute duration-500 ${
-                  photoIndex === index ? "opacity-100" : "opacity-0"
-                }`}
-                src={photo}
-                alt={`Image of ${auction?.title}`}
-                loading="lazy"
-              />
-            ))}
-            {auction?.photoURL.length > 1 && (
-              <>
-                <span
-                  onClick={() => setPhotoIndex((p) => p + 1)}
-                  className={`absolute top-1/2  bg-white py-1 rounded-xl right-1 -translate-y-1/2 ${
-                    photoIndex + 1 === auction?.photoURL.length
-                      ? "hidden"
-                      : "absolute"
-                  }`}
-                >
-                  <FaChevronRight size={25} />
-                </span>
-                <span
-                  onClick={() => setPhotoIndex((p) => p - 1)}
-                  className={` top-1/2  bg-white py-1 rounded-xl left-1 -translate-y-1/2 ${
-                    photoIndex === 0 ? "hidden" : "absolute"
-                  }`}
-                >
-                  <FaChevronLeft size={25} />
-                </span>
-              </>
-            )}
-            <span
-              onClick={handleSaveUnsave}
-              className="absolute top-5 right-5 p-1 rounded-lg bg-white cursor-pointer active:scale-95 shadow-xl"
-            >
-              {isAuctionSaved ? (
-                <HiBookmark size={25} />
-              ) : (
-                <HiOutlineBookmark size={25} />
-              )}
-            </span>
-          </div>
+          <ImageCarousel images={auction?.photoURL} />
         </div>
 
         {/* product details*/}
         <div className=" md:w-1/2 space-y-8">
           <div>
-            <h1 className="text-4xl font-semibold mb-3">{auction?.title}</h1>
+            <h1 className="text-4xl font-semibold mb-3 flex justify-between items-center w-full">
+              <span> {auction?.title}</span>
+
+              <span
+                onClick={handleSaveUnsave}
+                className=" p-1 rounded-lg  cursor-pointer active:scale-95 "
+              >
+                {isAuctionSaved ? (
+                  <HiBookmark size={25} />
+                ) : (
+                  <HiOutlineBookmark size={25} />
+                )}
+              </span>
+            </h1>
             <h3 className="">
               From <span className="font-light">{auction?.user?.name}</span>
             </h3>
@@ -230,27 +200,43 @@ const AuctionDetail = () => {
                 {auction?.highestBid || auction?.startingPrice}
               </h1>
               <h1 className="mt-1">
-                {calculateDays(auction?.clossesIn) === "Auction closed"
-                  ? `Payment Deadline: ${calculateDays(
-                      auction?.paymentDeadline
-                    )}`
-                  : calculateDays(auction?.clossesIn)}
+                {auction?.status === "active"
+                  ? calculateDays(auction?.clossesIn)
+                  : auction?.status === "completed"
+                  ? `Payment Deadline: ${
+                      calculateDays(auction?.paymentDeadline) ===
+                        "Auction closed" && "Expired"
+                    }`
+                  : auction?.status === "expired" ||
+                    auction?.status === "unpaid"
+                  ? "Auction expired or unpaid.Relist the auction."
+                  : "Shipping in progress."}
               </h1>
             </div>
-            {calculateDays(auction?.clossesIn) !== "Auction closed" && (
+
+            {/* bid / checkout / relist button */}
+            {auction?.status === "active" ? (
               <div>
                 <Button clickFunc={openModal}>Place bid</Button>
               </div>
+            ) : auction?.status === "completed" &&
+              auction?.highestBidder === singleUser?._id ? (
+              <div>
+                <Link to={`/dashboard/checkout/${auction?._id}`}>
+                  <Button>Checkout</Button>
+                </Link>
+              </div>
+            ) : (auction?.status === "expired" ||
+                auction?.status === "unpaid") &&
+              auction?.user?._id === singleUser?._id ? (
+              <div>
+                <Link to={`/dashboard/auction/${auction?._id}`}>
+                  <Button>Relist</Button>
+                </Link>
+              </div>
+            ) : (
+              <div>Shipping in progress</div>
             )}
-
-            {calculateDays(auction?.clossesIn) === "Auction closed" &&
-              auction?.highestBidder === singleUser?._id && (
-                <div>
-                  <Link to={`/dashboard/checkout/${auction?._id}`}>
-                    <Button>Checkout</Button>{" "}
-                  </Link>
-                </div>
-              )}
           </div>
 
           {/* bidders */}
