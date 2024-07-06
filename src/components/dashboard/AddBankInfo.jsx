@@ -4,18 +4,21 @@ import Button from "../Button";
 import { FaCircleCheck } from "react-icons/fa6";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddBankInfo = () => {
   const { singleUser } = useSingleUser();
   const [loading, setLoading] = useState(false);
-
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
-    if (singleUser.bankInfoAdded) return;
+    if (singleUser?.bankInfoAdded) {
+      return;
+    }
 
     const loadStatus = async () => {
       try {
-        const { data } = await axios.post(
-          `${import.meta.env.VITE_baseUrl}/payment/connectAndOnboardUser`,
+        const { data } = await axiosSecure.post(
+          `/payment/connectAndOnboardUser`,
           { userId: singleUser?._id }
         );
       } catch (error) {
@@ -24,31 +27,35 @@ const AddBankInfo = () => {
     };
 
     loadStatus();
-  }, [singleUser?._id, singleUser.bankInfoAdded, singleUser?.email]);
+  }, [
+    axiosSecure,
+    singleUser?._id,
+    singleUser?.bankInfoAdded,
+    singleUser.email,
+  ]);
 
   const onboardAndConnectUser = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_baseUrl}/payment/connectAndOnboardUser`,
+      const { data } = await axiosSecure.post(
+        `/payment/connectAndOnboardUser`,
         { userId: singleUser?._id, email: singleUser?.email }
       );
-      window.open(data.accountLinks.url, "_self");
+      window.open(data?.accountLinks.url, "_self");
       setLoading(false);
     } catch (error) {
       setLoading(false);
 
-      toast.error(error.response?.data.message);
+      toast.error(error.response?.data?.message);
     }
   };
 
   const loadLoginLink = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_baseUrl}/payment/dashboardLoginLink`,
-        { userId: singleUser?._id }
-      );
+      const { data } = await axiosSecure.post(`/payment/dashboardLoginLink`, {
+        userId: singleUser?._id,
+      });
       setLoading(false);
       window.open(data?.url, "_self");
     } catch (error) {

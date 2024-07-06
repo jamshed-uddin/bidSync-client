@@ -6,13 +6,16 @@ import {
 import Button from "../Button";
 import { useState } from "react";
 import ImageCarousel from "../ImageCarousel";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ auction, auctionLoading }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -34,6 +37,16 @@ const CheckoutForm = ({ auction, auctionLoading }) => {
       setIsProcessing(false);
     } else if (paymentIntent) {
       console.log(paymentIntent);
+
+      const paymentInfo = {
+        auctionId: auction?._id,
+        amount: auction?.highestBid,
+        transactionId: paymentIntent?.id,
+      };
+
+      const result = await axiosSecure.post(`/payment`, paymentInfo);
+      console.log(result);
+      navigate("/dashboard/paymentSuccess");
     }
     setIsProcessing(false);
   };
