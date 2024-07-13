@@ -92,7 +92,7 @@ const UserProfile = () => {
           </div>
 
           <div className="  ">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-6">
               {/* profile image */}
               <div className="avatar placeholder  ">
                 <div className="bg-neutral text-neutral-content rounded-full w-24">
@@ -124,26 +124,16 @@ const UserProfile = () => {
                 </h4>
               </div>
             </div>
-            {/* number of bid and auction */}
-            <div className="md:flex gap-4 w-full md:w-1/2  my-4  ">
-              <div className="px-9 py-3 rounded-xl shadow-md text-xl shrink-0 ">
-                <h1 className="font-semibold ">Bid placed</h1>
-                <h3>{myBids?.length || "0"}</h3>
-              </div>
-              <div className="px-9 py-3 rounded-xl shadow-md text-xl shrink-0">
-                <h1 className="font-semibold ">My auction</h1>
-                <h3>{myListings?.length || "0"}</h3>
-              </div>
-            </div>
+
             {/* other user detail */}
-            <div className="w-full border-t-2 pt-4 mt-2 space-y-4">
+            <div className="w-full border-t-2 pt-3  space-y-4">
               {/* address */}
               <div>
                 <h1 className="text-3xl mb-4 font-semibold">Address</h1>
                 {Object.keys(singleUser?.address || {})?.map((key, index) => (
                   <div
                     key={index}
-                    className="flex gap-4 items-center text-lg mb-2"
+                    className="flex gap-4 items-center text-lg mb-1"
                   >
                     <h1 className="text-lg font-semibold w-1/2">
                       {key === "addressLineOne"

@@ -15,10 +15,13 @@ import { LiaShippingFastSolid } from "react-icons/lia"; //shippig
 import { FiUser } from "react-icons/fi"; //account
 import { BsFileEarmarkPlus } from "react-icons/bs"; //add auction
 import { TbLogout2 } from "react-icons/tb";
+import isProfileComplete from "../../utils/isProfileComplete";
+import useSingleUser from "../../hooks/useSingleUser";
 
 const Dashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { userLogout } = useAuth();
+  const { singleUser } = useSingleUser();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   console.log(pathname);
@@ -114,7 +117,10 @@ const Dashboard = () => {
               </Link>
             </li>
 
-            <li>
+            <li className="relative">
+              {!isProfileComplete(singleUser) && (
+                <span className="w-2 h-2 rounded-full bg-red-500 block absolute right-0 top-0"></span>
+              )}
               <Link
                 to={"/dashboard/profile"}
                 className={`${activeRouteStyle("profile")} ${linkStyle}`}
@@ -141,7 +147,7 @@ const Dashboard = () => {
       </div>
 
       {/* outlet */}
-      <div className="flex-grow px-3 w-full">
+      <div className="shrink-0 px-3 lg:w-[80%]">
         <div className=" flex gap-2 items-center">
           <button className="lg:hidden" onClick={() => setMenuOpen(true)}>
             <HiBars3BottomLeft className="w-6 h-6" />
@@ -150,7 +156,7 @@ const Dashboard = () => {
             <h1 className="text-2xl font-bold  pt-2 lg:px-4">Dashboard</h1>
           </div>
         </div>
-        <div className="mt-3 lg:px-4">
+        <div className="mt-3 lg:px-4 ">
           <Outlet />
         </div>
       </div>

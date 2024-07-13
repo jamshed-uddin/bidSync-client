@@ -1,3 +1,4 @@
+import Table from "../../components/dashboard/Table";
 import useGetData from "../../hooks/useGetData";
 import useSingleUser from "../../hooks/useSingleUser";
 
@@ -11,7 +12,32 @@ const Payments = () => {
   } = useGetData(`/payment`, !!singleUser?._id);
 
   console.log(payments);
-  return <div>payments</div>;
+
+  const column = [
+    {
+      headerName: "Date",
+      field: "createdAt",
+      width: 200,
+    },
+    {
+      headerName: "Transaction id",
+      field: "transactionId",
+    },
+    {
+      headerName: "Auction id",
+      field: "auctionId",
+    },
+    {
+      headerName: "Amount",
+      field: "amount",
+    },
+  ];
+
+  return (
+    <div className="">
+      <Table column={column} data={payments} />
+    </div>
+  );
 };
 
 export default Payments;

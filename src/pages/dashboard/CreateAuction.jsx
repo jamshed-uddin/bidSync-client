@@ -7,6 +7,9 @@ import DashboardTitle from "../../components/dashboard/DashboardTitle";
 import Button from "../../components/Button";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import toast, { Toaster } from "react-hot-toast";
+import CompletionText from "../../components/dashboard/CompletionText";
+import useSingleUser from "../../hooks/useSingleUser";
+import isProfileComplete from "../../utils/isProfileComplete";
 
 const categories = [
   "Paintings",
@@ -21,8 +24,8 @@ const categories = [
 
 const CreateAuction = () => {
   const { id: editingAuctionId } = useParams();
-
   const [editMode, setEditMode] = useState(false);
+  const { singleUser } = useSingleUser();
   const [auctionData, setAuctionData] = useState({
     title: "",
     photoURL: [""],
@@ -140,6 +143,7 @@ const CreateAuction = () => {
 
   return (
     <div className="pb-7">
+      <CompletionText />
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -271,7 +275,11 @@ const CreateAuction = () => {
           </div>
 
           <div className="mt-2 text-center md:text-end ">
-            <Button disabled={loading} isLoading={loading} type={"submit"}>
+            <Button
+              disabled={loading || !isProfileComplete(singleUser)}
+              isLoading={loading}
+              type={"submit"}
+            >
               Submit
             </Button>
           </div>

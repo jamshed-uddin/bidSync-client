@@ -5,6 +5,8 @@ import AuctionGrid from "../../components/AuctionGrid";
 import CardSkeleton from "../../components/CardSkeleton";
 import NoItemAvailable from "../../components/NoItemAvailable";
 import WentWrong from "../../components/WentWrong";
+import Table from "../../components/dashboard/Table";
+import Button from "../../components/Button";
 
 const MyBids = () => {
   const { singleUser } = useSingleUser();
@@ -14,6 +16,21 @@ const MyBids = () => {
     error,
     isLoading,
   } = useGetData(`/bids/myBids/${singleUser?._id}`, !!singleUser?._id);
+  console.log(myBids);
+
+  const column = [
+    { headerName: "Title", field: "title", width: 200 },
+    { headerName: "Bid", field: "highestBid", width: 200 },
+    { headerName: "Status", field: "bidStatus", width: 200 },
+    {
+      headerName: "Auction",
+      field: "action",
+      renderCell: (params) => (
+        <Button clickFunc={() => console.log(params)}>See auction</Button>
+      ),
+      width: 200,
+    },
+  ];
 
   if (isLoading) {
     return <CardSkeleton amount={3} />;
@@ -26,7 +43,11 @@ const MyBids = () => {
   return (
     <div>
       <DashboardTitle>My bids</DashboardTitle>
-      {!myBids?.length ? <NoItemAvailable /> : <AuctionGrid items={myBids} />}
+      {!myBids?.length ? (
+        <NoItemAvailable />
+      ) : (
+        <Table column={column} data={myBids} />
+      )}
     </div>
   );
 };
