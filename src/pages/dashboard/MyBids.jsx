@@ -1,12 +1,13 @@
 import useGetData from "../../hooks/useGetData";
 import useSingleUser from "../../hooks/useSingleUser";
 import DashboardTitle from "../../components/dashboard/DashboardTitle";
-import AuctionGrid from "../../components/AuctionGrid";
+
 import CardSkeleton from "../../components/CardSkeleton";
 import NoItemAvailable from "../../components/NoItemAvailable";
 import WentWrong from "../../components/WentWrong";
 import Table from "../../components/dashboard/Table";
 import Button from "../../components/Button";
+import { Link } from "react-router-dom";
 
 const MyBids = () => {
   const { singleUser } = useSingleUser();
@@ -20,13 +21,15 @@ const MyBids = () => {
 
   const column = [
     { headerName: "Title", field: "title", width: 200 },
-    { headerName: "Bid", field: "highestBid", width: 200 },
+    { headerName: "Bid", field: "amount", width: 200 },
     { headerName: "Status", field: "bidStatus", width: 200 },
     {
       headerName: "Auction",
       field: "action",
       renderCell: (params) => (
-        <Button clickFunc={() => console.log(params)}>See auction</Button>
+        <Link to={`/auctions/${params._id}`}>
+          <Button>See auction</Button>
+        </Link>
       ),
       width: 200,
     },

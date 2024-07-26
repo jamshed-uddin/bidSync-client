@@ -9,14 +9,11 @@ import useGetData from "../../hooks/useGetData";
 import ProfileSkeleton from "../../components/ProfileSkeleton";
 import AddBankInfo from "../../components/dashboard/AddBankInfo";
 import { FiEdit } from "react-icons/fi";
+import useAuth from "../../hooks/useAuth";
 
 const UserProfile = () => {
   const { singleUser, singleUserLoading, singleUserRefetch } = useSingleUser();
-  const { data: myBids } = useGetData(`/bids/mybids/${singleUser?._id}`);
-
-  const { data: myListings } = useGetData(
-    `/listings/myListings/${singleUser?._id}`
-  );
+  const { user } = useAuth();
 
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -96,10 +93,10 @@ const UserProfile = () => {
               {/* profile image */}
               <div className="avatar placeholder  ">
                 <div className="bg-neutral text-neutral-content rounded-full w-24">
-                  {singleUser?.photoURL ? (
+                  {singleUser?.photoURL || user?.photoURL ? (
                     <img
                       className="w-full object-cover"
-                      src={singleUser?.photoURL}
+                      src={singleUser?.photoURL || user?.photoURL}
                       alt="Profile photo"
                     />
                   ) : (

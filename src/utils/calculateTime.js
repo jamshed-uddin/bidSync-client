@@ -1,11 +1,8 @@
-const calculateDays = (futureDate, onlyDays = false) => {
+const calculateTime = (date) => {
   const currentDate = new Date();
-  const targetDate = new Date(futureDate);
+  const createdAt = new Date(date);
 
-  const difference = targetDate - currentDate;
-  if (difference <= 0) {
-    return `Auction closed`;
-  }
+  const difference = createdAt - currentDate;
 
   const days = Math.floor(difference / (1000 * 60 * 60 * 24));
   const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
@@ -19,4 +16,4 @@ const calculateDays = (futureDate, onlyDays = false) => {
   return `${days}d ${hours}h ${minutes}m ${seconds}s `;
 };
 
-export default calculateDays;
+export default calculateTime;

@@ -2,8 +2,8 @@ const Table = ({ column, data }) => {
   return (
     <div className="overflow-auto   h-[70vh] ">
       <table className="w-max relative min-w-full">
-        <thead className=" bg-gray-100 sticky top-0 left-0 right-0">
-          <tr className="  border border-black">
+        <thead className=" bg-gray-100 sticky top-0 left-0 right-0 z-50 border border-black">
+          <tr className=" ">
             {column?.map((singleColumn) => (
               <th
                 key={singleColumn.field}
@@ -23,7 +23,7 @@ const Table = ({ column, data }) => {
           {data?.map((item) => (
             <tr
               key={item._id}
-              className="  border border-black  text-left  text-base overflow-x-scroll h-11 max-h-11 px-2"
+              className="  border border-black  text-left  text-base overflow-x-scroll h-12 max-h-11 px-2"
             >
               {column.map((singleColumn) => (
                 <td

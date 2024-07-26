@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
-import {
-  IoListOutline,
-  IoTrophyOutline,
-  IoCardOutline,
-  IoHomeOutline,
-} from "react-icons/io5"; //myListings, won bids , payments
+import { IoTrophyOutline, IoCardOutline, IoHomeOutline } from "react-icons/io5"; //myListings, won bids , payments
 import { VscGraph } from "react-icons/vsc"; //overview
 import { PiGavel } from "react-icons/pi"; //mybids
 import { GoTasklist } from "react-icons/go"; //manage listings

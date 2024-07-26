@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import useGetData from "../../hooks/useGetData";
 import AuctionGrid from "../AuctionGrid";
 import Title from "../Title";
+import CardSkeleton from "../CardSkeleton";
 
 const EasyBids = () => {
-  const { data } = useGetData("/listings");
+  const { data, isLoading } = useGetData("/listings");
 
   return (
     <div>
@@ -14,7 +15,7 @@ const EasyBids = () => {
           <span className="underline">See all</span>
         </Link>
       </div>
-      <AuctionGrid items={data?.slice(3, 9)} />
+      {isLoading ? <CardSkeleton /> : <AuctionGrid items={data?.slice(3, 9)} />}
     </div>
   );
 };

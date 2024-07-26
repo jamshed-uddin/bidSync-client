@@ -5,6 +5,7 @@ import useAxiosSecure from "./useAxiosSecure";
 
 const useSingleUser = () => {
   const { user } = useAuth();
+
   const axiosSecure = useAxiosSecure();
   const {
     data: singleUser,
@@ -16,7 +17,7 @@ const useSingleUser = () => {
       const result = await axiosSecure.get(`/user/${user?.email}`);
       return result?.data?.data;
     },
-    enabled: !!user,
+    enabled: !!user?.email,
   });
 
   return { singleUser, singleUserLoading, singleUserRefetch };

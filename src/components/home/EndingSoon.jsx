@@ -6,9 +6,7 @@ import CardSkeleton from "../CardSkeleton";
 
 const EndingSoon = () => {
   const { data, isLoading } = useGetData("/listings");
-  if (isLoading) {
-    return <CardSkeleton />;
-  }
+
   return (
     <div>
       <div className="flex justify-between items-end">
@@ -17,7 +15,11 @@ const EndingSoon = () => {
           <span className="underline">See all</span>
         </Link>
       </div>
-      <AuctionGrid items={data?.slice(6, 12)} />
+      {isLoading ? (
+        <CardSkeleton />
+      ) : (
+        <AuctionGrid items={data?.slice(6, 12)} />
+      )}
     </div>
   );
 };

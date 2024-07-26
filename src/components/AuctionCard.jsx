@@ -17,7 +17,7 @@ const AuctionCard = ({ item, placedIn }) => {
   const { singleUser } = useSingleUser();
 
   const openModal = () => {
-    document.getElementById("myModal").showModal();
+    document.getElementById("auctionDelete").showModal();
   };
 
   const closeModal = () => {
@@ -40,7 +40,9 @@ const AuctionCard = ({ item, placedIn }) => {
         reverseOrder={false}
         toastOptions={{ duration: 5000 }}
       />
-      <Modal>
+
+      {/* modal for deleting confirmation */}
+      <Modal modalId={"auctionDelete"}>
         <div>
           <h1 className="text-2xl">
             Are you sure you want to delete this auction?
@@ -56,6 +58,8 @@ const AuctionCard = ({ item, placedIn }) => {
           </div>
         </div>
       </Modal>
+
+      {/* edit and delete button for dashbaord and item seller only */}
       {placedIn === "dashboard" && item?.user?._id === singleUser?._id && (
         <div className="absolute  right-0 top-0 pr-2 z-30 ">
           <div className="flex items-center gap-3 ">
@@ -73,30 +77,36 @@ const AuctionCard = ({ item, placedIn }) => {
           </div>
         </div>
       )}
+
+      {/* auction card */}
       <Link to={`/auctions/${item?._id}`} preventScrollReset={true}>
-        <div className="h-80 w-full  ">
+        <div className="h-52 lg:h-72 w-full  overflow-hidden">
           <img
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-all duration-700 hover:scale-105"
             src={item?.photoURL?.at(0)}
             alt={`Image of ${item?.title}`}
             loading="lazy"
           />
         </div>
         <div>
-          <div className="flex items-center justify-between mt-1 px-1">
-            <h1 className="text-xl font-semibold">{item?.title}</h1>
+          <div className="flex items-center justify-between mt-1 lg:px-1">
+            <h1 className=" md:text-xl font-semibold">{item?.title}</h1>
           </div>
 
-          <div className="leading-5 mt-3 flex justify-between ">
+          <div className="leading-5 mt-3 lg:flex justify-between ">
             <div>
-              <h1>{item?.highestBid ? "Current bid" : "Starting from"}</h1>
-              <h1 className="text-xl">
+              <h1 className="opacity-90">
+                {item?.highestBid ? "Current bid" : "Starting from"}
+              </h1>
+              <h1 className="text-xl font-medium">
                 <span className="text-sm">$</span>
                 {item?.highestBid || item?.startingPrice}
               </h1>
             </div>
 
-            <h1>{calculateDays(item?.clossesIn, true)}</h1>
+            <h1 className="opacity-90">
+              {calculateDays(item?.clossesIn, true)}
+            </h1>
           </div>
         </div>
       </Link>

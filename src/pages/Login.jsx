@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { FaGoogle } from "react-icons/fa";
 import axios from "axios";
+import Button from "../components/Button";
 
 const Login = () => {
   const { user, userLogin, loading, loginWithGoogle } = useAuth();
@@ -15,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-
+  console.log(location);
   useEffect(() => {
     if (user) {
       navigate(from, { replace: true });
@@ -97,14 +98,13 @@ const Login = () => {
           <span className="text-red-500">{error}</span>
 
           <div className="text-center mt-3">
-            <button
+            <Button
               disabled={loading}
-              type="button"
-              onClick={handleUserLogin}
-              className="btn btn-sm text-lg"
+              type={"button"}
+              clickFunc={handleUserLogin}
             >
               Login
-            </button>
+            </Button>
           </div>
         </div>
         {/* social login */}
@@ -112,9 +112,9 @@ const Login = () => {
           <div className="divider">Or</div>
           <h2 className="text-xl font-semibold">Continue with</h2>
           <div className=" mt-2">
-            <button onClick={handleGoogleLogin} className="btn btn-sm ">
-              <FaGoogle />
-            </button>
+            <Button clickFunc={handleGoogleLogin} style={"bordered"}>
+              <FaGoogle color="#EC4436" />
+            </Button>
           </div>
         </div>
 

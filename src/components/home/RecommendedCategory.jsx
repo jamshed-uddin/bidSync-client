@@ -30,7 +30,7 @@ const RecommendedCategory = () => {
         {categoryPhoto.map((item, index) => (
           <div className="relative" key={index}>
             <Link
-              to={"/categories"}
+              to={"/auctions"}
               state={{ category: item?.category.toLowerCase() }}
             >
               <div className=" h-[50vh] overflow-hidden">
