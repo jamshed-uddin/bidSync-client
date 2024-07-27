@@ -1,29 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { HiXMark } from "react-icons/hi2";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useURLParams from "../hooks/useURLParams";
 
-const Searchbar = ({ searchQuery, setSearchQuery, searchBarRef }) => {
+const Searchbar = ({ searchBarRef }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [searchBarFocused, setSearchBarFocused] = useState(false);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location?.search);
-    const queryValue = params.get("q") || "";
-    setSearchQuery(queryValue);
-  }, [location?.search, setSearchQuery]);
+  const queryParams = useURLParams();
+  const [searchBarFocused, setSearchBarFocused] = useState(false);
 
   const searchQueryHandler = (e) => {
     const value = e.target.value;
-    const params = new URLSearchParams();
+    // const params = new URLSearchParams();
+
     if (value) {
-      params.set("q", value);
+      queryParams.set("q", value);
     } else {
-      params.set({});
+      queryParams.delete("q");
     }
 
-    navigate(`?${params.toString()}`, { replace: true });
+    navigate(`?${queryParams.toString()}`, { replace: true });
+  };
+
+  const clearSearchBox = () => {
+    queryParams.delete("q");
+    if (searchBarRef) {
+      searchBarRef.current.value = "";
+    }
+    navigate(`?${queryParams.toString()}`, { replace: true });
   };
 
   const searchBarOnFocus = () => {
@@ -31,7 +36,7 @@ const Searchbar = ({ searchQuery, setSearchQuery, searchBarRef }) => {
     setSearchBarFocused(true);
   };
 
-  const inputStyle = `input input-bordered pr-0  input-sm w-full focus:outline-0 focus:border focus:border-gray-500  bg-white `;
+  const inputStyle = `input input-bordered pr-0  input-sm w-full border border-gray-400 focus:outline-0 focus:border-[1.9px] focus:border-gray-700  bg-white `;
 
   return (
     <div
@@ -45,7 +50,6 @@ const Searchbar = ({ searchQuery, setSearchQuery, searchBarRef }) => {
             <button
               onClick={() => {
                 setSearchBarFocused(false);
-                setSearchQuery("");
               }}
               className="mr-1 block  lg:hidden"
             >
@@ -72,15 +76,15 @@ const Searchbar = ({ searchQuery, setSearchQuery, searchBarRef }) => {
           placeholder="Search"
           className={inputStyle}
           name="searchInput"
-          value={searchQuery}
+          value={queryParams.get("q")}
           onChange={searchQueryHandler}
           autoComplete="new-password"
           onFocus={searchBarOnFocus}
         />
-        {searchQuery && (
+        {queryParams.get("q") && (
           <button
-            onClick={() => setSearchQuery("")}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-lg  cursor-pointer `}
+            onClick={clearSearchBox}
+            className={`absolute right-[0.4px] top-1/2 -translate-y-1/2 rounded-lg  cursor-pointer bg-white `}
           >
             <HiXMark size={25} />
           </button>
