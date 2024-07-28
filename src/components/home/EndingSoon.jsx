@@ -5,7 +5,9 @@ import Title from "../Title";
 import CardSkeleton from "../CardSkeleton";
 
 const EndingSoon = () => {
-  const { data, isLoading } = useGetData("/listings");
+  const { data, isLoading } = useGetData("/listings?limit=15");
+
+  console.log(data);
 
   return (
     <div>

@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { HiXMark } from "react-icons/hi2";
+import { HiXMark, HiArrowLeft } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import useURLParams from "../hooks/useURLParams";
 
 const Searchbar = ({ searchBarRef }) => {
   const navigate = useNavigate();
-
   const queryParams = useURLParams();
   const [searchBarFocused, setSearchBarFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const searchQueryHandler = (e) => {
-    const value = e.target.value;
+  const submitSearchQuery = (e) => {
+    e.preventDefault();
     // const params = new URLSearchParams();
 
-    if (value) {
-      queryParams.set("q", value);
+    if (searchQuery) {
+      queryParams.set("q", searchQuery);
     } else {
       queryParams.delete("q");
     }
@@ -23,17 +23,24 @@ const Searchbar = ({ searchBarRef }) => {
     navigate(`?${queryParams.toString()}`, { replace: true });
   };
 
+  const inputFieldChangeHandler = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const clearSearchBox = () => {
-    queryParams.delete("q");
-    if (searchBarRef) {
-      searchBarRef.current.value = "";
-    }
-    navigate(`?${queryParams.toString()}`, { replace: true });
+    setSearchQuery("");
   };
 
   const searchBarOnFocus = () => {
     if (window.innerWidth > 800) return;
     setSearchBarFocused(true);
+  };
+
+  const navigateBack = () => {
+    setSearchBarFocused(false);
+    setSearchQuery("");
+    queryParams.delete("q");
+    navigate(`?${queryParams.toString()}`, { replace: true });
   };
 
   const inputStyle = `input input-bordered pr-0  input-sm w-full border border-gray-400 focus:outline-0 focus:border-[1.9px] focus:border-gray-700  bg-white `;
@@ -44,51 +51,39 @@ const Searchbar = ({ searchBarRef }) => {
         searchBarFocused ? " w-full " : "w-28  "
       }`}
     >
-      <div className="flex w-full items-center relative overflow-hidden  rounded-lg justify-end">
+      <div className="flex gap-2 w-full items-center relative overflow-hidden  rounded-lg justify-end">
         {searchBarFocused ? (
           <>
+            <button onClick={navigateBack} className=" block  lg:hidden">
+              <HiArrowLeft size={25} />
+            </button>
+          </>
+        ) : null}
+        <form className="w-full relative" onSubmit={submitSearchQuery}>
+          <input
+            ref={searchBarRef}
+            type="text"
+            placeholder="Search"
+            className={inputStyle}
+            name="searchInput"
+            value={searchQuery}
+            onChange={inputFieldChangeHandler}
+            autoComplete="new-password"
+            onFocus={searchBarOnFocus}
+          />
+          {searchQuery && (
             <button
-              onClick={() => {
-                setSearchBarFocused(false);
-              }}
-              className="mr-1 block  lg:hidden"
+              type="button"
+              onClick={clearSearchBox}
+              className={`absolute right-[0.6px] top-1/2 -translate-y-1/2 rounded-lg  cursor-pointer bg-white `}
             >
               <HiXMark size={25} />
             </button>
-            <button className=" mr-1 hidden lg:block">
-              <HiMagnifyingGlass size={25} />
-            </button>
-          </>
-        ) : (
-          <button
-            onClick={() => {
-              setSearchBarFocused(true);
-              searchBarRef?.current.focus();
-            }}
-            className=" mr-1"
-          >
-            <HiMagnifyingGlass size={25} />
-          </button>
-        )}
-        <input
-          ref={searchBarRef}
-          type="text"
-          placeholder="Search"
-          className={inputStyle}
-          name="searchInput"
-          value={queryParams.get("q")}
-          onChange={searchQueryHandler}
-          autoComplete="new-password"
-          onFocus={searchBarOnFocus}
-        />
-        {queryParams.get("q") && (
-          <button
-            onClick={clearSearchBox}
-            className={`absolute right-[0.4px] top-1/2 -translate-y-1/2 rounded-lg  cursor-pointer bg-white `}
-          >
-            <HiXMark size={25} />
-          </button>
-        )}
+          )}
+        </form>
+        <button onClick={submitSearchQuery} className=" mr-1">
+          <HiMagnifyingGlass size={25} />
+        </button>
       </div>
     </div>
   );

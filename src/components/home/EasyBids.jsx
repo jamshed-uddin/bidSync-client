@@ -5,7 +5,7 @@ import Title from "../Title";
 import CardSkeleton from "../CardSkeleton";
 
 const EasyBids = () => {
-  const { data, isLoading } = useGetData("/listings");
+  const { data, isLoading } = useGetData("/listings?limit=15");
 
   return (
     <div>
