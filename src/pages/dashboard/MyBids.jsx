@@ -1,13 +1,11 @@
 import useGetData from "../../hooks/useGetData";
 import useSingleUser from "../../hooks/useSingleUser";
-import DashboardTitle from "../../components/dashboard/DashboardTitle";
-
-import CardSkeleton from "../../components/CardSkeleton";
 import NoItemAvailable from "../../components/NoItemAvailable";
 import WentWrong from "../../components/WentWrong";
 import Table from "../../components/dashboard/Table";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
+import TableSkeleton from "../../components/TableSkeleton";
 
 const MyBids = () => {
   const { singleUser } = useSingleUser();
@@ -35,18 +33,13 @@ const MyBids = () => {
     },
   ];
 
-  if (isLoading) {
-    return <CardSkeleton amount={3} />;
-  }
-
-  if (error) {
-    return <WentWrong />;
-  }
-
   return (
     <div>
-      <DashboardTitle>My bids</DashboardTitle>
-      {!myBids?.length ? (
+      {isLoading ? (
+        <TableSkeleton />
+      ) : error ? (
+        <WentWrong />
+      ) : !myBids?.length ? (
         <NoItemAvailable />
       ) : (
         <Table column={column} data={myBids} />

@@ -26,10 +26,7 @@ const Auctions = () => {
   const location = useLocation();
   const queryParams = useURLParams();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState("");
-  const debouncedValue = useDebounce(queryParams.get("q"), 800);
-  console.log(queryParams);
   const [URLParams, setURLParams] = useState({
     category: queryParams.get("category") || "",
     page: queryParams.get("page") || 0,
@@ -40,10 +37,8 @@ const Auctions = () => {
     order: queryParams.get("order") || "",
   });
 
-  console.log(queryParams.get("q"));
-
   const { data, isLoading, error } = useGetData(`/listings${location.search}`);
-  console.log(location.search);
+
   useEffect(() => {
     if (location.state) {
       if (location?.state?.category) {
@@ -87,7 +82,7 @@ const Auctions = () => {
           <WentWrong />
         ) : (
           <>
-            <div className="flex gap-4 flex-nowrap overflow-x-auto mt-2 pt-2 pb-3">
+            <div className="flex gap-4 flex-nowrap overflow-x-auto mt-2 pt-2 pb-3 hide-scrollbar ">
               {categories.map((cate, index) => (
                 <div
                   onClick={() => {

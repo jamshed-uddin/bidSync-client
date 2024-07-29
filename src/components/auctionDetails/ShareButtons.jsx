@@ -22,7 +22,7 @@ const ShareButtons = () => {
     <>
       <h2 className="text-xl mb-1 font-semibold">Share this object</h2>
 
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-5 mt-3">
         <div>
           <FacebookShareButton url={window?.location?.href}>
             <FacebookIcon size={30} borderRadius={10} />

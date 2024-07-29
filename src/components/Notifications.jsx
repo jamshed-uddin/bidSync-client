@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import useGetData from "../hooks/useGetData";
 import useSingleUser from "../hooks/useSingleUser";
 import NotificationList from "./NotificationList";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Notifications = () => {
@@ -12,16 +12,22 @@ const Notifications = () => {
     singleUser?.newNotifications
   );
   const axiosSecure = useAxiosSecure();
+  const modalCloseRef = useRef(null);
   const {
     data: notifications,
     isLoading,
     error,
   } = useGetData("/notifications", !!singleUser?._id);
 
-  console.log(!!singleUser?._id);
-
   const openModal = () => {
     document.getElementById("notifications").showModal();
+  };
+
+  const closeModal = () => {
+    if (modalCloseRef.current) {
+      console.log("button exists");
+      modalCloseRef.current.click();
+    }
   };
 
   const handleNotificationOpen = async () => {
@@ -37,10 +43,13 @@ const Notifications = () => {
       onClick={handleNotificationOpen}
       className="relative cursor-pointer w-fit h-fit"
     >
-      <Modal modalId={"notifications"}>
+      <Modal modalId={"notifications"} closeBtnRef={modalCloseRef}>
         <div>
           <h3 className="text-xl font-semibold">Notifications</h3>
-          <NotificationList notifications={notifications} />
+          <NotificationList
+            notifications={notifications}
+            onClickFunc={closeModal}
+          />
         </div>
       </Modal>
 

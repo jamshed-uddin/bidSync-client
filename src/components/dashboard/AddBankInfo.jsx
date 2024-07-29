@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import useSingleUser from "../../hooks/useSingleUser";
 import Button from "../Button";
 import { FaCircleCheck } from "react-icons/fa6";
-import axios from "axios";
+import { GoInfo } from "react-icons/go";
+
 import toast, { Toaster } from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
@@ -70,10 +71,29 @@ const AddBankInfo = () => {
         reverseOrder={false}
         toastOptions={{ duration: 6000 }}
       />
-      <h1 className="text-2xl  font-semibold">Payment</h1>
-      <h4 className="text-lg leading-5 mb-4">
-        Add your bank account information to take payment for your sold auction.
-      </h4>
+      <div className="text-2xl  font-semibold flex items-end gap-2 mb-4">
+        <h3> Payment</h3>
+        {singleUser?.bankInfoAdded && (
+          <div
+            className="tooltip "
+            data-tip={`${
+              singleUser?.bankInfoAdded
+                ? "Use 000000 as dashboard OTP to login"
+                : "Use test bank data to add bank account"
+            }`}
+          >
+            <span className=" cursor-pointer">
+              <GoInfo size={20} />
+            </span>
+          </div>
+        )}
+      </div>
+      {!singleUser?.bankInfoAdded && (
+        <h4 className="text-lg leading-5 ">
+          Add your bank account information to take payment for your sold
+          auction.
+        </h4>
+      )}
 
       {singleUser?.bankInfoAdded ? (
         <>

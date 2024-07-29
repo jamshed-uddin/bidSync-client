@@ -10,19 +10,21 @@ import ProfileSkeleton from "../../components/ProfileSkeleton";
 import AddBankInfo from "../../components/dashboard/AddBankInfo";
 import { FiEdit } from "react-icons/fi";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UserProfile = () => {
   const { singleUser, singleUserLoading, singleUserRefetch } = useSingleUser();
   const { user } = useAuth();
-
+  const axiosSecure = useAxiosSecure();
   const [userInfo, setUserInfo] = useState({
     name: "",
     photoURL: "",
     address: {
       country: "",
       city: "",
-      addressLineOne: "",
-      addressLineTwo: "",
+      state: "",
+      zip: "",
+      address: "",
     },
   });
 
@@ -50,10 +52,7 @@ const UserProfile = () => {
 
     try {
       setLoading(true);
-      await axios.patch(
-        `${import.meta.env.VITE_baseUrl}/user/${singleUser?._id}`,
-        userInfo
-      );
+      await axiosSecure.patch(`/user/${singleUser?._id}`, userInfo);
       setLoading(false);
       setEditProfile(false);
       toast.success("Profile updated");
@@ -64,7 +63,8 @@ const UserProfile = () => {
     }
   };
 
-  const inputStyle = "input input-bordered w-full  focus:outline-none bg-white";
+  const inputStyle =
+    "input input-bordered w-full  focus:outline-none bg-white mt-1";
 
   if (singleUserLoading) {
     return <ProfileSkeleton />;
@@ -126,7 +126,7 @@ const UserProfile = () => {
             <div className="w-full border-t-2 pt-3  space-y-4">
               {/* address */}
               <div>
-                <h1 className="text-3xl mb-4 font-semibold">Address</h1>
+                <h1 className="text-2xl mb-4 font-semibold">Address</h1>
                 {Object.keys(singleUser?.address || {})?.map((key, index) => (
                   <div
                     key={index}
@@ -151,12 +151,12 @@ const UserProfile = () => {
         </>
       ) : (
         // edit profile form
-        <div className="lg:px-7 pb-8">
+        <div className=" pb-8">
           <div>
             <DashboardTitle>Edit profile</DashboardTitle>
           </div>
 
-          <form onSubmit={submitEditProfile} className="space-y-2">
+          <form onSubmit={submitEditProfile} className="space-y-2 mt-4">
             <div className="w-full">
               <label htmlFor="" className="block text-lg font-semibold ">
                 name
@@ -203,6 +203,21 @@ const UserProfile = () => {
               </div>
               <div className="w-full">
                 <label htmlFor="" className="block text-lg font-semibold ">
+                  State
+                </label>
+                <input
+                  type="text"
+                  placeholder="State"
+                  className={inputStyle}
+                  name="state"
+                  value={userInfo.address.state || singleUser?.address?.state}
+                  onChange={handleAddressLineInput}
+                />
+              </div>
+            </div>
+            <div className="md:flex items-center gap-4">
+              <div className="w-full">
+                <label htmlFor="" className="block text-lg font-semibold ">
                   City
                 </label>
                 <input
@@ -212,41 +227,37 @@ const UserProfile = () => {
                   name="city"
                   value={userInfo.address.city || singleUser?.address?.city}
                   onChange={handleAddressLineInput}
+                />
+              </div>
+              <div className="w-full">
+                <label htmlFor="" className="block text-lg font-semibold ">
+                  Zip
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  placeholder="zip"
+                  className={inputStyle}
+                  name="zip"
+                  value={userInfo.address.zip || singleUser?.address?.zip}
+                  onChange={handleAddressLineInput}
                   required
                 />
               </div>
             </div>
+
             <div className="w-full">
               <label htmlFor="" className="block text-lg font-semibold ">
-                Address line 1
+                Address
               </label>
               <textarea
                 type="text"
-                placeholder="Address line 1"
-                className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40 bg-white"
-                name="addressLineOne"
-                value={
-                  userInfo.address.addressLineOne ||
-                  singleUser?.address?.addressLineOne
-                }
+                placeholder="Address"
+                className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40 bg-white mt-1"
+                name="address"
+                value={userInfo.address.address || singleUser?.address?.address}
                 onChange={handleAddressLineInput}
-              />
-            </div>
-            <div className="w-full">
-              <label htmlFor="" className="block text-lg font-semibold ">
-                Address line 2
-                <span className="font-light text-sm">(optional)</span>
-              </label>
-              <textarea
-                type="text"
-                placeholder="Address line 2"
-                className="input input-bordered w-full  focus:outline-none min-h-20 max-h-40 bg-white"
-                name="addressLineTwo"
-                value={
-                  userInfo.address.addressLineTwo ||
-                  singleUser?.address?.addressLineTwo
-                }
-                onChange={handleAddressLineInput}
+                required
               />
             </div>
 

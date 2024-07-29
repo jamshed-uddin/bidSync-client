@@ -6,3 +6,17 @@ body {
   background-color: white;
   color: #0c0c0c;
 }
+
+.hide-scrollbar {
+  scrollbar-width: 7px;
+  /* -ms-overflow-style: none; */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+
+.hide-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(220, 220, 220, 0.776);
+  border-radius: 10px;
+}

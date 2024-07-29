@@ -1,20 +1,16 @@
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
+import calculateTime from "../utils/calculateTime";
 
-const NotificationList = ({ notifications }) => {
+const NotificationList = ({ notifications, onClickFunc }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [itemPerPage] = useState(5);
   const [pageNum, setPageNum] = useState(1);
 
-  console.log(pageNum);
-  const closeModal = () => {
-    document.getElementById("closeBtn").click();
-  };
-
   const navigateToAuction = (link) => {
-    closeModal();
+    onClickFunc();
     navigate(link);
   };
 
@@ -24,7 +20,7 @@ const NotificationList = ({ notifications }) => {
         <h3>You do not have any notification yet.</h3>
       ) : (
         <>
-          <ul className="  space-y-2 divide-y-[1.2px] divide-gray-400">
+          <ul className="  space-y-1 divide-y-[1.2px] divide-gray-400">
             {notifications
               ?.slice(
                 itemPerPage * pageNum - itemPerPage,
@@ -33,11 +29,13 @@ const NotificationList = ({ notifications }) => {
               .map((notification) => (
                 <li
                   key={notification._id}
-                  className=" py-3 cursor-pointer"
+                  className=" py-2 cursor-pointer"
                   onClick={() => navigateToAuction(notification?.link)}
                 >
                   {notification?.message}
-                  <span className="block text-sm">Today at 8:34PM</span>
+                  <span className="block text-sm">
+                    {calculateTime(notification?.createdAt)}
+                  </span>
                 </li>
               ))}
           </ul>

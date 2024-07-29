@@ -1,4 +1,6 @@
 import Table from "../../components/dashboard/Table";
+import TableSkeleton from "../../components/TableSkeleton";
+import WentWrong from "../../components/WentWrong";
 import useGetData from "../../hooks/useGetData";
 import useSingleUser from "../../hooks/useSingleUser";
 
@@ -17,7 +19,7 @@ const Payments = () => {
     {
       headerName: "Date",
       field: "createdAt",
-      width: 200,
+      width: 250,
     },
     {
       headerName: "Transaction id",
@@ -35,7 +37,13 @@ const Payments = () => {
 
   return (
     <div className="">
-      <Table column={column} data={payments} />
+      {paymentsLoading ? (
+        <TableSkeleton />
+      ) : paymentsError ? (
+        <WentWrong />
+      ) : (
+        <Table column={column} data={payments} />
+      )}
     </div>
   );
 };

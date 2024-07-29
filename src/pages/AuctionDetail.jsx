@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import calculateDays from "../utils/calculateDays";
@@ -6,8 +6,7 @@ import Button from "../components/Button";
 import DetailSkeleton from "../components/DetailSkeleton";
 import Modal from "../components/Modal";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { HiOutlineBookmark } from "react-icons/hi2";
-import { HiBookmark } from "react-icons/hi2";
+import { HiOutlineBookmark, HiBookmark, HiChevronDown } from "react-icons/hi2";
 import { SlMagnifierAdd } from "react-icons/sl";
 import { AiOutlineSafety } from "react-icons/ai";
 import { IoCardOutline } from "react-icons/io5";
@@ -22,6 +21,8 @@ import ImageCarousel from "../components/ImageCarousel";
 
 import ShareButtons from "../components/auctionDetails/ShareButtons";
 import AuctionDescription from "../components/auctionDetails/AuctionDescription";
+import calculateTime from "../utils/calculateTime";
+import PriceAndBidButton from "../components/PriceAndBidButton";
 const AuctionDetail = () => {
   const { id } = useParams();
   const { user, loading: userLoading } = useAuth();
@@ -29,14 +30,15 @@ const AuctionDetail = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
-
+  const closeModalRef = useRef(null);
   const [bidPlaceLoading, setBidPlaceLoading] = useState(false);
-  const [placedBidAmount, setPlacedBidAmount] = useState(null);
+  const [placedBidAmount, setPlacedBidAmount] = useState("");
   const [bidError, setBidError] = useState("");
   const { handleAuctionSaveUnsave, isSaved } = useSaveUnsave();
   const [isAuctionSaved, setIsAuctionSaved] = useState(
     user ? isSaved(id) : false
   );
+  const [showAllBids, setShowAllBids] = useState(false);
 
   const {
     data: auction,
@@ -48,7 +50,6 @@ const AuctionDetail = () => {
     isLoading: bidsLoading,
     refetch: bidsRefetch,
   } = useGetData(`/bids/${id}`);
-  console.log(auction);
 
   const handleRedirect = async (redirectTo) => {
     navigate(`/${redirectTo}`, { state: { from: location } });
@@ -60,16 +61,13 @@ const AuctionDetail = () => {
   };
 
   const closeModal = () => {
-    document.getElementById("closeBtn").click();
+    if (closeModalRef.current) {
+      closeModalRef.current.click();
+    }
   };
   //--------------
 
   const placeBidHandler = async () => {
-    if (!user) {
-      closeModal();
-      return toast.error("Please login to place the bid.");
-    }
-
     if (typeof placedBidAmount !== "number" || !placedBidAmount) {
       return setBidError("Please enter a valid amount.");
     } else if (
@@ -90,8 +88,10 @@ const AuctionDetail = () => {
       closeModal();
       setBidPlaceLoading(false);
       toast.success("Bid placed");
+      setPlacedBidAmount(null);
       bidsRefetch();
     } catch (error) {
+      closeModal();
       toast.error("Something went wrong!");
       setBidPlaceLoading(false);
     }
@@ -121,7 +121,16 @@ const AuctionDetail = () => {
         reverseOrder={false}
         toastOptions={{ duration: 5000 }}
       />
-      <Modal modalId={"placeBid"}>
+
+      {/* place bid modal */}
+      <Modal
+        modalId={"placeBid"}
+        closeBtnRef={closeModalRef}
+        oncloseFunc={() => {
+          setPlacedBidAmount("");
+          setBidError("");
+        }}
+      >
         {user ? (
           <div className="  mt-6">
             <div>
@@ -240,68 +249,22 @@ const AuctionDetail = () => {
         {/* acution biding and other*/}
         <div className="sticky top-4 right-0  p-2 order-last md:order-2">
           {/* price and bid button */}
-          <div className=" flex justify-between items-end mt-6 fixed md:static  bottom-0 right-0 left-0 bg-white z-40 p-3 md:p-0">
-            <div>
-              <h1 className="text-xl font-semibold">
-                {auction?.highestBid ? "Current bid" : "Starting from"}
-              </h1>
-              <h1 className="text-4xl font-semibold">
-                <span className="text-sm">$</span>
-                {auction?.highestBid || auction?.startingPrice}
-              </h1>
-              <h1 className="mt-1 font-semibold">
-                {auction?.status === "active"
-                  ? `Closses in: ${calculateDays(auction?.clossesIn)}`
-                  : auction?.status === "completed"
-                  ? `Payment Deadline: ${
-                      calculateDays(auction?.paymentDeadline) ===
-                        "Auction closed" && "Expired"
-                    }`
-                  : auction?.status === "expired" ||
-                    auction?.status === "unpaid"
-                  ? "Auction expired or unpaid.Relist the auction."
-                  : "Shipping in progress."}
-              </h1>
-            </div>
-
-            {/* bid / checkout / relist button */}
-            {auction?.status === "active" ? (
-              <div>
-                <Button clickFunc={openModal}>Place bid</Button>
-              </div>
-            ) : auction?.status === "completed" &&
-              auction?.highestBidder === singleUser?._id ? (
-              <div>
-                <Link to={`/dashboard/checkout/${auction?._id}`}>
-                  <Button>Checkout</Button>
-                </Link>
-              </div>
-            ) : (auction?.status === "expired" ||
-                auction?.status === "unpaid") &&
-              auction?.user?._id === singleUser?._id ? (
-              <div>
-                <Link to={`/dashboard/auction/${auction?._id}`}>
-                  <Button>Relist</Button>
-                </Link>
-              </div>
-            ) : (
-              <div>Shipping in progress</div>
-            )}
-          </div>
+          <PriceAndBidButton auction={auction} openModal={openModal} />
 
           {/* bidders */}
           <div className="mt-4">
-            <div className="divider divider-start text-xl mt-8 font-semibold">
-              Bid history
-            </div>
-            <div className="font-semibold space-y-2">
+            <h4 className="mb-2 text-xl mt-8 font-semibold">Bid history</h4>
+            <div className=" space-y-1">
               {bidsLoading ? (
                 <h1>Bids loading...</h1>
               ) : bids?.length ? (
-                bids?.map((bid) => (
+                bids?.slice(0, showAllBids ? bids?.length : 3).map((bid) => (
                   <div key={bid?._id}>
                     <h1 className="flex justify-between items-center ">
-                      <span>{bid?.user?.name}</span>
+                      <span className="">{bid?.user?.name}</span>
+                      <span className="text-sm font-normal">
+                        {calculateTime(bid?.createdAt)}
+                      </span>
                       <span>${bid?.amount}</span>
                     </h1>
                   </div>
@@ -310,12 +273,28 @@ const AuctionDetail = () => {
                 <h2>Be the first to bid.</h2>
               )}
             </div>
+            <button
+              onClick={() => setShowAllBids((p) => !p)}
+              className=" font-semibold mt-4 flex items-end gap-1"
+            >
+              {showAllBids
+                ? "See fewer"
+                : `See all 
+              (${bids?.length})`}{" "}
+              <span
+                className={`transform-all duration-500 ${
+                  showAllBids ? "rotate-180" : "rotate-0"
+                }`}
+              >
+                <HiChevronDown size={20} />
+              </span>
+            </button>
           </div>
 
-          {/* buys protection */}
+          {/* buyers protection */}
           <div className="mt-6   rounded-xl text-sm">
             <h2 className="text-xl mb-1 font-semibold">
-              BidSync buys protection
+              BidSync buyers protection
             </h2>
 
             <ul className="  text-lg ">

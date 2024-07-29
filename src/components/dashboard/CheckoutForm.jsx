@@ -37,16 +37,24 @@ const CheckoutForm = ({ auction, auctionLoading }) => {
       setIsProcessing(false);
     } else if (paymentIntent) {
       console.log(paymentIntent);
+      try {
+        const paymentInfo = {
+          auctionId: auction?._id,
+          amount: auction?.highestBid,
+          transactionId: paymentIntent?.id,
+        };
 
-      const paymentInfo = {
-        auctionId: auction?._id,
-        amount: auction?.highestBid,
-        transactionId: paymentIntent?.id,
-      };
-
-      const result = await axiosSecure.post(`/payment`, paymentInfo);
-      console.log(result);
-      navigate("/dashboard/paymentSuccess");
+        const result = await axiosSecure.post(`/payment`, paymentInfo);
+        const saveToDelivery = await axiosSecure.post("/delivery", {
+          auctionId: auction?._id,
+          recipient: auction?.highestBidder,
+        });
+        console.log(result);
+        console.log(saveToDelivery);
+        navigate("/dashboard/paymentSuccess");
+      } catch (error) {
+        setIsProcessing(false);
+      }
     }
     setIsProcessing(false);
   };
