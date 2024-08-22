@@ -1,5 +1,11 @@
+import Metrics from "../../components/dashboard/Metrics";
+
 const Overview = () => {
-  return <div>overview</div>;
+  return (
+    <div>
+      <Metrics />
+    </div>
+  );
 };
 
 export default Overview;

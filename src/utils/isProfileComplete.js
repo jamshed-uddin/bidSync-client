@@ -8,7 +8,7 @@ const isProfileComplete = (singleUser) => {
     }
   };
 
-  if (singleUser?.bankInfoAdded && isAddressComplete()) {
+  if (singleUser && singleUser?.bankInfoAdded && isAddressComplete()) {
     return true;
   } else {
     return false;

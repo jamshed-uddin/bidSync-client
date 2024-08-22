@@ -95,7 +95,7 @@ const Navbar = () => {
               <div className="   p-1 rounded-lg">
                 <div className="avatar">
                   <div className="bg-neutral text-neutral-content rounded-full w-6">
-                    {user?.photoURL ? (
+                    {user ? (
                       <img
                         className="w-full object-cover"
                         src={user?.photoURL}

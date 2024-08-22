@@ -86,6 +86,14 @@ const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        element: (
+          <PrivateRoute>
+            <Overview />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "profile",
         element: (
           <PrivateRoute>
@@ -93,14 +101,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "overview",
-        element: (
-          <PrivateRoute>
-            <Overview />
-          </PrivateRoute>
-        ),
-      },
+
       {
         path: "myListings",
         element: (

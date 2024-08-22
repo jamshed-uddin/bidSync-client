@@ -4,9 +4,14 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import calculateDays from "../utils/calculateDays";
 import Button from "../components/Button";
 import DetailSkeleton from "../components/DetailSkeleton";
-import Modal from "../components/Modal";
+
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { HiOutlineBookmark, HiBookmark, HiChevronDown } from "react-icons/hi2";
+import {
+  HiOutlineBookmark,
+  HiBookmark,
+  HiChevronDown,
+  HiXMark,
+} from "react-icons/hi2";
 import { SlMagnifierAdd } from "react-icons/sl";
 import { AiOutlineSafety } from "react-icons/ai";
 import { IoCardOutline } from "react-icons/io5";
@@ -23,6 +28,7 @@ import ShareButtons from "../components/auctionDetails/ShareButtons";
 import AuctionDescription from "../components/auctionDetails/AuctionDescription";
 import calculateTime from "../utils/calculateTime";
 import PriceAndBidButton from "../components/PriceAndBidButton";
+import CustomModal from "../components/CustomModal";
 const AuctionDetail = () => {
   const { id } = useParams();
   const { user, loading: userLoading } = useAuth();
@@ -30,7 +36,7 @@ const AuctionDetail = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
-  const closeModalRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [bidPlaceLoading, setBidPlaceLoading] = useState(false);
   const [placedBidAmount, setPlacedBidAmount] = useState("");
   const [bidError, setBidError] = useState("");
@@ -55,15 +61,8 @@ const AuctionDetail = () => {
     navigate(`/${redirectTo}`, { state: { from: location } });
   };
 
-  // modal opener and close functions -------
-  const openModal = () => {
-    document.getElementById("placeBid").showModal();
-  };
-
   const closeModal = () => {
-    if (closeModalRef.current) {
-      closeModalRef.current.click();
-    }
+    setIsModalOpen(false);
   };
   //--------------
 
@@ -123,16 +122,21 @@ const AuctionDetail = () => {
       />
 
       {/* place bid modal */}
-      <Modal
-        modalId={"placeBid"}
-        closeBtnRef={closeModalRef}
-        oncloseFunc={() => {
+      <CustomModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        onAfterClose={() => {
           setPlacedBidAmount("");
           setBidError("");
         }}
       >
         {user ? (
-          <div className="  mt-6">
+          <div className="">
+            <div className="flex justify-end">
+              <button onClick={closeModal} className="">
+                <HiXMark size={25} />
+              </button>
+            </div>
             <div>
               <h1 className="font-semibold">
                 {auction?.highestBid ? "Current bid" : "Starting from"}
@@ -210,7 +214,7 @@ const AuctionDetail = () => {
             </div>
           </div>
         )}
-      </Modal>
+      </CustomModal>
 
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-6 relative">
         {/* image and title */}
@@ -249,7 +253,10 @@ const AuctionDetail = () => {
         {/* acution biding and other*/}
         <div className="sticky top-4 right-0  p-2 order-last md:order-2">
           {/* price and bid button */}
-          <PriceAndBidButton auction={auction} openModal={openModal} />
+          <PriceAndBidButton
+            auction={auction}
+            openModal={() => setIsModalOpen(true)}
+          />
 
           {/* bidders */}
           <div className="mt-4">
@@ -273,22 +280,24 @@ const AuctionDetail = () => {
                 <h2>Be the first to bid.</h2>
               )}
             </div>
-            <button
-              onClick={() => setShowAllBids((p) => !p)}
-              className=" font-semibold mt-4 flex items-end gap-1"
-            >
-              {showAllBids
-                ? "See fewer"
-                : `See all 
-              (${bids?.length})`}{" "}
-              <span
-                className={`transform-all duration-500 ${
-                  showAllBids ? "rotate-180" : "rotate-0"
-                }`}
+            {bids?.length > 3 && (
+              <button
+                onClick={() => setShowAllBids((p) => !p)}
+                className=" font-semibold mt-4 flex items-end gap-1"
               >
-                <HiChevronDown size={20} />
-              </span>
-            </button>
+                {showAllBids
+                  ? "See fewer"
+                  : `See all 
+              (${bids?.length})`}{" "}
+                <span
+                  className={`transform-all duration-500 ${
+                    showAllBids ? "rotate-180" : "rotate-0"
+                  }`}
+                >
+                  <HiChevronDown size={20} />
+                </span>
+              </button>
+            )}
           </div>
 
           {/* buyers protection */}

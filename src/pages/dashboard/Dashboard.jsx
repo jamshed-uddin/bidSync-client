@@ -2,21 +2,28 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
-import { IoTrophyOutline, IoCardOutline, IoHomeOutline } from "react-icons/io5"; //myListings, won bids , payments
-import { VscGraph } from "react-icons/vsc"; //overview
-import { PiGavel } from "react-icons/pi"; //mybids
-import { GoTasklist } from "react-icons/go"; //manage listings
-import { LiaShippingFastSolid } from "react-icons/lia"; //shippig
-import { FiUser } from "react-icons/fi"; //account
-import { BsFileEarmarkPlus } from "react-icons/bs"; //add auction
+import { IoHomeOutline } from "react-icons/io5"; //myListings, won bids , payments
+//add auction
 import { TbLogout2 } from "react-icons/tb";
-import isProfileComplete from "../../utils/isProfileComplete";
+
 import useSingleUser from "../../hooks/useSingleUser";
+import SideNavLinks from "../../components/dashboard/SideNavLinks";
+
+{
+  /* <li>
+  <Link
+    to={"/dashboard/myListings"}
+    className={` ${activeRouteStyle("mylistings")} ${linkStyle}`}
+  >
+    <GoTasklist /> My Listings
+  </Link>
+</li>; */
+}
 
 const Dashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { userLogout } = useAuth();
-  const { singleUser } = useSingleUser();
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
   console.log(pathname);
@@ -28,14 +35,6 @@ const Dashboard = () => {
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
-
-  const activeRouteStyle = (routeName) => {
-    if (pathname.toLowerCase().includes(routeName.toLowerCase())) {
-      return "border-l-2 border-black bg-gray-50 rounded-sm";
-    } else {
-      return "border-l-2 border-transparent";
-    }
-  };
 
   const linkStyle = "flex items-center gap-2 pl-2 ";
 
@@ -52,78 +51,7 @@ const Dashboard = () => {
               <HiOutlineXMark className="w-7 h-7" />
             </button>
           </div>
-          <ul className="text-xl   pt-3 md:pt-10 flex-grow space-y-3 ">
-            <li>
-              <Link
-                to={"/dashboard/overview"}
-                className={` ${activeRouteStyle("overview")} ${linkStyle}`}
-              >
-                <VscGraph />
-                Overview
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={"/dashboard/myListings"}
-                className={` ${activeRouteStyle("mylistings")} ${linkStyle}`}
-              >
-                <GoTasklist /> My Listings
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={"/dashboard/myBids"}
-                className={` ${activeRouteStyle("mybids")} ${linkStyle}`}
-              >
-                <PiGavel /> My Bids
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={"/dashboard/wonAuctions"}
-                className={` ${activeRouteStyle("wonauctions")} ${linkStyle}`}
-              >
-                <IoTrophyOutline /> Won Auctions
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to={"/dashboard/createAuction"}
-                className={` ${activeRouteStyle("createAuction")} ${linkStyle}`}
-              >
-                <BsFileEarmarkPlus /> Add Auction
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={"/dashboard/payments"}
-                className={` ${activeRouteStyle("payments")} ${linkStyle}`}
-              >
-                <IoCardOutline /> Payments
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={"/dashboard/shipping"}
-                className={` ${activeRouteStyle("shipping")} ${linkStyle}`}
-              >
-                <LiaShippingFastSolid /> Shipping
-              </Link>
-            </li>
-
-            <li className="relative">
-              {!isProfileComplete(singleUser) && (
-                <span className="w-2 h-2 rounded-full bg-red-500 block absolute right-0 top-0"></span>
-              )}
-              <Link
-                to={"/dashboard/profile"}
-                className={`${activeRouteStyle("profile")} ${linkStyle}`}
-              >
-                <FiUser /> Profile
-              </Link>
-            </li>
-          </ul>
+          <SideNavLinks />
 
           <ul className="text-xl   space-y-3 pb-6">
             <li>

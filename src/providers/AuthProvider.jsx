@@ -40,8 +40,6 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-
       if (currentUser) {
         axios
           .post(`${import.meta.env.VITE_baseUrl}/user/generateJwtToken`, {
@@ -49,9 +47,11 @@ const AuthProvider = ({ children }) => {
           })
           .then((res) => {
             localStorage.setItem("jwt", res.data.token);
+            setUser(currentUser);
           });
       } else {
         localStorage.removeItem("jwt");
+        setUser(null);
       }
       setLoading(false);
     });

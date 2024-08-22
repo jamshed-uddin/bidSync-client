@@ -15,7 +15,7 @@ const PriceAndBidButton = ({ auction, openModal }) => {
     auction?.status === "expired" || auction?.status === "unpaid";
 
   return (
-    <div className=" flex justify-between items-end mt-6 fixed md:static  bottom-0 right-0 left-0 bg-white z-40 p-3 md:p-0">
+    <div className=" flex justify-between items-end mt-6 fixed md:static  bottom-0 right-0 left-0 bg-white z-40 p-3 md:p-0   border-t md:border-t-0  border-gray-300">
       <div>
         <h1 className="font-semibold">
           {auction?.status === "active"
