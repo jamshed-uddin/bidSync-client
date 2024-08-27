@@ -27,6 +27,7 @@ import Payments from "./pages/dashboard/Payments.jsx";
 import Shipping from "./pages/dashboard/Shipping.jsx";
 import Checkout from "./pages/dashboard/Checkout.jsx";
 import PaymentSuccess from "./pages/dashboard/PaymentSuccess.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
   {
     path: "signup",
     element: <SignUp />,
+  },
+  {
+    path: "forgotpassword",
+    element: <ForgotPassword />,
   },
   {
     path: "dashboard",

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
+import Button from "../components/Button";
 
 const Signup = () => {
   const { user, userSignup, loading, setLoading } = useAuth();
@@ -63,7 +65,7 @@ const Signup = () => {
 
   return (
     <div className="h-screen flex justify-center items-center ">
-      <div className=" lg:w-1/4 w-full lg:mx-auto mx-10">
+      <div className=" lg:w-1/3 w-full lg:mx-auto mx-10">
         <Link to={"/"}>
           <h1 className="text-lg lg:text-2xl font-bold">BidSync</h1>
         </Link>
@@ -112,12 +114,16 @@ const Signup = () => {
                 }
                 className="text-sm font-normal cursor-pointer "
               >
-                {showPass.password ? "Hide" : "Show"}
+                {showPass.password ? (
+                  <HiOutlineEye size={20} />
+                ) : (
+                  <HiOutlineEyeSlash size={20} />
+                )}
               </span>
             </label>
             <input
               type={showPass.password ? "text" : "password"}
-              placeholder="Your password"
+              placeholder="Password"
               className={inputStyle}
               name="password"
               value={userCredential.password}
@@ -140,7 +146,11 @@ const Signup = () => {
                 }
                 className="text-sm font-normal cursor-pointer "
               >
-                {showPass.confirmPassword ? "Hide" : "Show"}
+                {showPass.confirmPassword ? (
+                  <HiOutlineEye size={20} />
+                ) : (
+                  <HiOutlineEyeSlash size={20} />
+                )}
               </span>
             </label>
             <input
@@ -156,14 +166,13 @@ const Signup = () => {
           <span className="text-red-500">{error}</span>
 
           <div className="text-center mt-3">
-            <button
+            <Button
               disabled={loading}
-              type="button"
-              onClick={handleUserSignup}
-              className="btn btn-sm text-lg"
+              type={"button"}
+              clickFunc={handleUserSignup}
             >
               Sign up
-            </button>
+            </Button>
           </div>
         </div>
 

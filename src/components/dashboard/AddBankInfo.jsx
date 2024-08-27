@@ -32,7 +32,7 @@ const AddBankInfo = () => {
     axiosSecure,
     singleUser?._id,
     singleUser?.bankInfoAdded,
-    singleUser.email,
+    singleUser?.email,
   ]);
 
   const onboardAndConnectUser = async () => {

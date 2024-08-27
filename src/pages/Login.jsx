@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import { FaGoogle } from "react-icons/fa";
 import axios from "axios";
 import Button from "../components/Button";
+import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 
 const Login = () => {
   const { user, userLogin, loading, loginWithGoogle } = useAuth();
@@ -54,7 +55,7 @@ const Login = () => {
 
   return (
     <div className="h-screen flex justify-center items-center ">
-      <div className="lg:w-1/4 w-full lg:mx-auto mx-10">
+      <div className="lg:w-1/3 w-full lg:mx-auto mx-10">
         <Link to={"/"}>
           <h1 className="text-lg lg:text-2xl font-bold">BidSync</h1>
         </Link>
@@ -83,7 +84,11 @@ const Login = () => {
                 onClick={() => setShowPass((p) => !p)}
                 className="text-sm font-normal cursor-pointer "
               >
-                {showPass ? "Hide" : "Show"}
+                {showPass ? (
+                  <HiOutlineEye size={20} />
+                ) : (
+                  <HiOutlineEyeSlash size={20} />
+                )}
               </span>
             </label>
             <input
@@ -113,7 +118,7 @@ const Login = () => {
           <h2 className="text-xl font-semibold">Continue with</h2>
           <div className=" mt-2">
             <Button clickFunc={handleGoogleLogin} style={"bordered"}>
-              <FaGoogle color="#EC4436" />
+              <FaGoogle />
             </Button>
           </div>
         </div>
