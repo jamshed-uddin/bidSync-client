@@ -22,10 +22,11 @@ const MyListings = () => {
   if (error) {
     return <WentWrong />;
   }
+
   return (
     <div>
       <DashboardTitle>My listings</DashboardTitle>
-      {!myListings?.length ? (
+      {myListings && !isLoading && !myListings?.length ? (
         <NoItemAvailable />
       ) : (
         <AuctionGrid items={myListings} placedIn={"dashboard"} />

@@ -7,11 +7,11 @@ const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
 
-  if (loading && !user) {
+  if (loading || !user) {
     return <div className="h-screen  bg-white"></div>;
   }
 
-  if (user) {
+  if (user && !loading) {
     return children;
   }
 

@@ -91,7 +91,7 @@ const Navbar = () => {
             )}
           </ul>
           {user ? (
-            <Link to={"/dashboard/profile"}>
+            <Link to={"/dashboard"}>
               <div className="   p-1 rounded-lg">
                 <div className="avatar">
                   <div className="bg-neutral text-neutral-content rounded-full w-6">

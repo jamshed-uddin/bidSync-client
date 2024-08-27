@@ -7,8 +7,6 @@ import CardSkeleton from "../CardSkeleton";
 const EndingSoon = () => {
   const { data, isLoading } = useGetData("/listings?limit=15");
 
-  console.log(data);
-
   return (
     <div>
       <div className="flex justify-between items-end">

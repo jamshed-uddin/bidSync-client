@@ -31,7 +31,6 @@ const routes = [
 const SideNavLinks = () => {
   const { singleUser } = useSingleUser();
   const { pathname } = useLocation();
-  console.log(pathname);
 
   const activeRouteStyle = (route) => {
     if (pathname.toLowerCase() === route.toLowerCase()) {
@@ -47,9 +46,11 @@ const SideNavLinks = () => {
         const LinkIcon = link.icon;
         return (
           <li key={link.name} className="relative">
-            {!isProfileComplete(singleUser) && link.name === "Profile" && (
-              <span className="w-2 h-2 rounded-full bg-red-500 block absolute left-0 top-0"></span>
-            )}
+            {!!singleUser &&
+              !isProfileComplete(singleUser) &&
+              link.name === "Profile" && (
+                <span className="w-2 h-2 rounded-full bg-red-500 block absolute left-0 top-0"></span>
+              )}
             <Link
               to={link.href}
               className={`${activeRouteStyle(link.href)} ${linkStyle}`}

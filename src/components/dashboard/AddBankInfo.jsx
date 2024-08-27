@@ -23,7 +23,7 @@ const AddBankInfo = () => {
           { userId: singleUser?._id }
         );
       } catch (error) {
-        console.log(error);
+        return null;
       }
     };
 

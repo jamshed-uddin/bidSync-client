@@ -15,7 +15,6 @@ const MyBids = () => {
     error,
     isLoading,
   } = useGetData(`/bids/myBids/${singleUser?._id}`, !!singleUser?._id);
-  console.log(myBids);
 
   const column = [
     { headerName: "Title", field: "title", width: 200 },

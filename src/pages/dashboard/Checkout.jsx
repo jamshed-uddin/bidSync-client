@@ -27,10 +27,9 @@ const Checkout = () => {
         const data = await axiosSecure.post(`/payment/secret`, {
           amount: auction?.highestBid,
         });
-        console.log(data);
         setClientSecret(data?.data?.clientSecret);
       } catch (error) {
-        console.log(error);
+        return null;
       }
     };
 

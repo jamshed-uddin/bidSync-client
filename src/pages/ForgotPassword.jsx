@@ -17,12 +17,10 @@ const ForgotPassword = () => {
     }
     setLoading(true);
     try {
-      const res = await resetPasswordEmail(email);
-      console.log(res);
+      await resetPasswordEmail(email);
       setEmailSent(true);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setError("Something went wrong!");
       setLoading(false);
     }

@@ -13,8 +13,6 @@ const Payments = () => {
     error: paymentsError,
   } = useGetData(`/payment`, !!singleUser?._id);
 
-  console.log(payments);
-
   const column = [
     {
       headerName: "Date",

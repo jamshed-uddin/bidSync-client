@@ -36,7 +36,6 @@ const CheckoutForm = ({ auction, auctionLoading }) => {
       setErrorMessage(error.message);
       setIsProcessing(false);
     } else if (paymentIntent) {
-      console.log(paymentIntent);
       try {
         const paymentInfo = {
           auctionId: auction?._id,
@@ -49,8 +48,7 @@ const CheckoutForm = ({ auction, auctionLoading }) => {
           auctionId: auction?._id,
           recipient: auction?.highestBidder,
         });
-        console.log(result);
-        console.log(saveToDelivery);
+
         navigate("/dashboard/paymentSuccess");
       } catch (error) {
         setIsProcessing(false);

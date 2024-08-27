@@ -5,28 +5,14 @@ import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
 import { IoHomeOutline } from "react-icons/io5"; //myListings, won bids , payments
 //add auction
 import { TbLogout2 } from "react-icons/tb";
-
-import useSingleUser from "../../hooks/useSingleUser";
 import SideNavLinks from "../../components/dashboard/SideNavLinks";
-
-{
-  /* <li>
-  <Link
-    to={"/dashboard/myListings"}
-    className={` ${activeRouteStyle("mylistings")} ${linkStyle}`}
-  >
-    <GoTasklist /> My Listings
-  </Link>
-</li>; */
-}
 
 const Dashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { userLogout } = useAuth();
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log(pathname);
+
   const handleUserLogout = async () => {
     await userLogout();
     navigate("/");

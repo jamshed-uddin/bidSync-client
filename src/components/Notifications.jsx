@@ -3,7 +3,7 @@ import { HiOutlineBell, HiXMark } from "react-icons/hi2";
 import useGetData from "../hooks/useGetData";
 import useSingleUser from "../hooks/useSingleUser";
 import NotificationList from "./NotificationList";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import CustomModal from "./CustomModal";
 
@@ -32,7 +32,7 @@ const Notifications = () => {
   const closeModal = () => {
     setNotifiModalOpen(false);
   };
-  console.log(notifiModalOpen);
+
   return (
     <>
       <CustomModal

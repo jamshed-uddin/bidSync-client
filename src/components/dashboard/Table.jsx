@@ -3,7 +3,6 @@ import { useState } from "react";
 const Table = ({ column, data, itemsPerPageArray = [5, 10, 15] }) => {
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageArray.at(0));
   const [page, setPage] = useState(1);
-  console.log(itemsPerPage);
 
   return (
     <div className="overflow-auto relative min-h-[70vh] max-h-[70vh] hide-scrollbar  flex flex-col">
