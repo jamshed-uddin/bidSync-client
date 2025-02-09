@@ -1,7 +1,6 @@
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -14,74 +13,14 @@ import { useEffect, useState } from "react";
 import useGetData from "../../hooks/useGetData";
 import useSingleUser from "../../hooks/useSingleUser";
 
-const data = [
-  {
-    name: "Page A",
-    Active: 4000,
-    Sold: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    Active: 3000,
-    Sold: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    Active: 2000,
-    Sold: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    Active: 2780,
-    Sold: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    Active: 1890,
-    Sold: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    Active: 2390,
-    Sold: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    Active: 3490,
-    Sold: 4300,
-    // amt: 2100,
-  },
-];
-
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
 const AuctionChart = () => {
   const { singleUser } = useSingleUser();
   const [arrangedAuction, setArrangedAuctions] = useState([]);
 
-  const {
-    data: myListings,
-    isLoading: myListingsLoading,
-    error: myListingsError,
-  } = useGetData(`/listings/myListings/${singleUser?._id}`, !!singleUser?._id);
+  const { data: myListings } = useGetData(
+    `/listings/myListings/${singleUser?._id}`,
+    !!singleUser?._id
+  );
 
   useEffect(() => {
     if (!myListings) return;
@@ -139,7 +78,7 @@ const AuctionChart = () => {
           data={arrangedAuction}
           margin={{
             top: 20,
-            left: 0,
+            left: -20,
             right: 0,
             bottom: 5,
           }}

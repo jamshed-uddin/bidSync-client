@@ -12,7 +12,7 @@ const ImageCarousel = ({ images }) => {
           className={`h-full w-full object-cover transition-opacity absolute duration-500 ${
             photoIndex === index ? "opacity-100" : "opacity-0"
           }`}
-          src={photo}
+          src={photo.url}
           alt={`Image of auction item`}
           loading="lazy"
         />

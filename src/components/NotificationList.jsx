@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import calculateTime from "../utils/calculateTime";
 
 const NotificationList = ({ notifications, onClickFunc }) => {

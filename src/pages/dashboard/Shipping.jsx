@@ -5,6 +5,7 @@ import WentWrong from "../../components/WentWrong";
 import useGetData from "../../hooks/useGetData";
 import useSingleUser from "../../hooks/useSingleUser";
 import Button from "../../components/Button";
+import DashboardTitle from "../../components/dashboard/DashboardTitle";
 
 const Shipping = () => {
   const { singleUser } = useSingleUser();
@@ -45,6 +46,7 @@ const Shipping = () => {
 
   return (
     <div className="">
+      <DashboardTitle>Shipping</DashboardTitle>
       {deliveryLoading ? (
         <TableSkeleton />
       ) : deliveryError ? (

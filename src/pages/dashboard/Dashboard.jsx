@@ -27,7 +27,7 @@ const Dashboard = () => {
   return (
     <div className="md:flex  md:m-0 max-h-screen overflow-y-auto">
       <div
-        className={`bg-gray-100 shrink-0 w-2/3 md:w-[30%] lg:w-[20%] pl-8 pr-5  h-screen  absolute  top-0 bottom-0 z-50 transition-all duration-500 lg:sticky lg:top-0 lg:left-0 lg:bottom-0 shadow-xl ${
+        className={`bg-gray-50 shrink-0 w-2/3 md:w-[30%] lg:w-[20%] pl-8 pr-5  h-screen  absolute  top-0 bottom-0 z-50 transition-all duration-500 lg:sticky lg:top-0 lg:left-0 lg:bottom-0  ${
           menuOpen ? "left-0" : "-left-80"
         }  `}
       >
@@ -39,7 +39,7 @@ const Dashboard = () => {
           </div>
           <SideNavLinks />
 
-          <ul className="text-xl   space-y-3 pb-6">
+          <ul className="   space-y-1 pb-6">
             <li>
               <Link to={"/"} className={linkStyle}>
                 <IoHomeOutline /> Home
@@ -57,13 +57,10 @@ const Dashboard = () => {
 
       {/* outlet */}
       <div className="shrink-0 px-3 lg:w-[80%]">
-        <div className=" flex gap-2 items-center">
+        <div className=" flex gap-2 items-center mt-2">
           <button className="lg:hidden" onClick={() => setMenuOpen(true)}>
             <HiBars3BottomLeft className="w-6 h-6" />
           </button>
-          <div>
-            <h1 className="text-2xl font-bold  pt-2 lg:px-4">Dashboard</h1>
-          </div>
         </div>
         <div className="mt-3 lg:px-4 ">
           <Outlet />

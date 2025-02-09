@@ -36,10 +36,10 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-md  rounded-box w-52 bg-white"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-md  rounded-box w-52 bg-white uppercase"
           >
             <li>
-              <Link to={"/auctions"}>Auctions</Link>
+              <Link to={"/listings"}>Deals</Link>
             </li>
 
             <li>
@@ -52,9 +52,9 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="flex items-center gap-8 px-1  text-lg">
+        <ul className="flex items-center gap-8 px-1   uppercase text-sm font-medium">
           <li>
-            <Link to={"/auctions"}>Auctions</Link>
+            <Link to={"/listings"}>Deals</Link>
           </li>
 
           <li>
@@ -65,9 +65,9 @@ const Navbar = () => {
       <div className="navbar-end">
         <div className=" flex items-center gap-3">
           <ul className=" flex items-center gap-3">
-            {pathname !== "/auctions" && (
+            {pathname !== "/deals" && (
               <li>
-                <Link to={"/auctions"} state={{ focusSearchBar: true }}>
+                <Link to={"/deals"} state={{ focusSearchBar: true }}>
                   <span>
                     <HiMagnifyingGlass size={25} />
                   </span>

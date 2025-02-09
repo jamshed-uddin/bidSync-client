@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardTitle from "./DashboardTitle";
 import MetricCard from "./MetricCard";
 import useSingleUser from "../../hooks/useSingleUser";
@@ -12,15 +12,14 @@ const Metrics = () => {
 
   const {
     data: myBids,
-    error,
+
     isLoading: myBidsLoading,
   } = useGetData(`/bids/myBids/${singleUser?._id}`, !!singleUser?._id);
 
-  const {
-    data: myListings,
-    isLoading: myListingsLoading,
-    error: myListingsError,
-  } = useGetData(`/listings/myListings/${singleUser?._id}`, !!singleUser?._id);
+  const { data: myListings, isLoading: myListingsLoading } = useGetData(
+    `/listings/myListings/${singleUser?._id}`,
+    !!singleUser?._id
+  );
 
   useEffect(() => {
     if (myListings) {
@@ -63,7 +62,7 @@ const Metrics = () => {
 
   return (
     <div className="lg:flex items-center gap-3  justify-between space-y-4 lg:space-y-0">
-      <div className="shadow-md p-4 rounded-lg flex-grow bg-gray-100">
+      <div className=" p-4  flex-grow ">
         <DashboardTitle>My Auctions</DashboardTitle>
         <div className="flex items-center gap-2  mt-2">
           {Object.keys(auctionsSorted)?.map((status) => (
@@ -75,7 +74,7 @@ const Metrics = () => {
           ))}
         </div>
       </div>
-      <div className="shadow-md p-4 rounded-lg flex-grow bg-gray-100">
+      <div className="p-4  flex-grow ">
         <DashboardTitle>My Bids</DashboardTitle>
         <div className="flex items-center gap-2  mt-2">
           {Object.keys(bidsSorted)?.map((status) => (

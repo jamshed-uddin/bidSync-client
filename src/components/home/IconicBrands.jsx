@@ -11,7 +11,7 @@ const IconicBrands = () => {
   return (
     <div>
       <Title>Iconic brands</Title>
-      <div className="grid  lg:grid-cols-6 grid-cols-2 gap-4 items-center my-6">
+      <div className="grid  lg:grid-cols-6 grid-cols-3 gap-4 items-center my-6">
         {brandLogo.map((logo, index) => (
           <div key={index}>
             <img src={logo} alt="" />

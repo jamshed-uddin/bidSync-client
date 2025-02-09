@@ -19,11 +19,11 @@ const routes = [
     icon: IoTrophyOutline,
   },
   {
-    name: "Add Auction",
-    href: "/dashboard/createAuction",
+    name: "List item",
+    href: "/dashboard/listItem",
     icon: BsFileEarmarkPlus,
   },
-  { name: "Payments", href: "/dashboard/payments", icon: IoCardOutline },
+
   { name: "Shipping", href: "/dashboard/shipping", icon: LiaShippingFastSolid },
   { name: "Profile", href: "/dashboard/profile", icon: FiUser },
 ];
@@ -41,7 +41,7 @@ const SideNavLinks = () => {
   const linkStyle = "flex items-center gap-2 pl-2 py-1  rounded-lg";
 
   return (
-    <ul className="text-xl  pt-3 md:pt-10 flex-grow space-y-2 ">
+    <ul className="  pt-3 md:pt-10 flex-grow space-y-1 ">
       {routes.map((link) => {
         const LinkIcon = link.icon;
         return (

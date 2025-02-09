@@ -1,4 +1,4 @@
-import AuctionGrid from "../../components/AuctionGrid";
+import AuctionGrid from "../../components/ListingGrid";
 import CardSkeleton from "../../components/CardSkeleton";
 import NoItemAvailable from "../../components/NoItemAvailable";
 import WentWrong from "../../components/WentWrong";
@@ -24,7 +24,7 @@ const WonAuctions = () => {
   }
   return (
     <div>
-      <DashboardTitle>My listings</DashboardTitle>
+      <DashboardTitle>Won auctions</DashboardTitle>
       {!myListings?.length ? (
         <NoItemAvailable />
       ) : (

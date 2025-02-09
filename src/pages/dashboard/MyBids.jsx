@@ -6,6 +6,7 @@ import Table from "../../components/dashboard/Table";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../components/TableSkeleton";
+import DashboardTitle from "../../components/dashboard/DashboardTitle";
 
 const MyBids = () => {
   const { singleUser } = useSingleUser();
@@ -21,7 +22,7 @@ const MyBids = () => {
     { headerName: "Bid", field: "amount", width: 200 },
     { headerName: "Status", field: "bidStatus", width: 200 },
     {
-      headerName: "Auction",
+      headerName: "Action",
       field: "action",
       renderCell: (params) => (
         <Link to={`/auctions/${params._id}`}>
@@ -34,6 +35,7 @@ const MyBids = () => {
 
   return (
     <div>
+      <DashboardTitle>My bids</DashboardTitle>
       {isLoading ? (
         <TableSkeleton />
       ) : error ? (
@@ -41,7 +43,9 @@ const MyBids = () => {
       ) : !myBids?.length ? (
         <NoItemAvailable />
       ) : (
-        <Table column={column} data={myBids} />
+        <>
+          <Table column={column} data={myBids} />
+        </>
       )}
     </div>
   );

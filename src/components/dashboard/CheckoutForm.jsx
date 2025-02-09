@@ -5,11 +5,11 @@ import {
 } from "@stripe/react-stripe-js";
 import Button from "../Button";
 import { useState } from "react";
-import ImageCarousel from "../ImageCarousel";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
+import DashboardTitle from "./DashboardTitle";
 
-const CheckoutForm = ({ auction, auctionLoading }) => {
+const CheckoutForm = ({ item, itemLoading }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -26,7 +26,7 @@ const CheckoutForm = ({ auction, auctionLoading }) => {
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:5173/dashboard/paymentSuccess",
+        return_url: `${window.location.origin}/dashboard/paymentSuccess`,
       },
 
       redirect: "if_required",
@@ -38,15 +38,15 @@ const CheckoutForm = ({ auction, auctionLoading }) => {
     } else if (paymentIntent) {
       try {
         const paymentInfo = {
-          auctionId: auction?._id,
-          amount: auction?.highestBid,
+          auctionId: item?._id,
+          amount: item?.highestBid,
           transactionId: paymentIntent?.id,
         };
 
-        const result = await axiosSecure.post(`/payment`, paymentInfo);
-        const saveToDelivery = await axiosSecure.post("/delivery", {
-          auctionId: auction?._id,
-          recipient: auction?.highestBidder,
+        await axiosSecure.post(`/payment`, paymentInfo);
+        await axiosSecure.post("/delivery", {
+          auctionId: item?._id,
+          recipient: item?.highestBidder,
         });
 
         navigate("/dashboard/paymentSuccess");
@@ -61,29 +61,36 @@ const CheckoutForm = ({ auction, auctionLoading }) => {
     <div className="lg:flex lg:gap-12 pt-3 pb-10 space-y-10 lg:space-y-0">
       {/* auction detail */}
       <div className="lg:w-1/2 ">
-        {/* auction images */}
-        <div className="w-full h-[50vh]">
-          <ImageCarousel images={auction?.photoURL} />
-        </div>
-        {/* auction detail */}
-        <div className="mt-4">
-          <h1 className="text-2xl lg:text-3xl font-semibold mb-2">
-            {auction?.title}
-          </h1>
-          <h3 className="text-lg">
-            <span>From: </span> {auction?.user?.name}
-          </h3>
-          <h3 className="text-lg leading-2 ">
-            Winning bid: $
-            <span className="text-xl font-semibold">{auction?.highestBid}</span>
-          </h3>
+        <DashboardTitle>Item</DashboardTitle>
+        <div className="flex gap-4 mt-4">
+          {/* auction images */}
+          <div className="w-28 h-28 rounded-xl overflow-hidden  ">
+            <img
+              src={item?.photoURL[0].url}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+          {/* auction detail */}
+          <div className="">
+            <h1 className="text-2xl font-semibold ">{item?.title}</h1>
+
+            <h3 className=" ">
+              $
+              <span className="text-lg font-semibold">
+                {item.format === "auction"
+                  ? item?.highestBid || item?.startingPrice
+                  : item.priceForBuyItNow}
+              </span>
+            </h3>
+          </div>
         </div>
       </div>
 
       {/* payment form */}
       <div className="lg:w-1/2 ">
-        <h1 className="text-2xl font-semibold leading-3 pb-5">Payment info</h1>
-        <form onSubmit={handleSubmit} className="space-y-3 ">
+        <DashboardTitle>Payment info</DashboardTitle>
+        <form onSubmit={handleSubmit} className="space-y-3 mt-4">
           <PaymentElement />
           {errorMessage && (
             <span className="block text-red-600">{errorMessage}</span>

@@ -1,4 +1,4 @@
-import AuctionGrid from "../components/AuctionGrid";
+import AuctionGrid from "../components/ListingGrid";
 import CardSkeleton from "../components/CardSkeleton";
 import Title from "../components/Title";
 import WentWrong from "../components/WentWrong";

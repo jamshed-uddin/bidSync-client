@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import AuctionGrid from "../components/AuctionGrid";
+import AuctionGrid from "../components/ListingGrid";
 import CardSkeleton from "../components/CardSkeleton";
 import Title from "../components/Title";
 import WentWrong from "../components/WentWrong";
 import useGetData from "../hooks/useGetData";
-import useDebounce from "../hooks/useDebounce";
 import { useLocation, useNavigate } from "react-router-dom";
 import Searchbar from "../components/SearchBar";
 import useURLParams from "../hooks/useURLParams";
@@ -21,7 +20,7 @@ const categories = [
   "Interior",
 ];
 
-const Auctions = () => {
+const Listings = () => {
   const searchBarRef = useRef(null);
   const location = useLocation();
   const queryParams = useURLParams();
@@ -113,4 +112,4 @@ const Auctions = () => {
   );
 };
 
-export default Auctions;
+export default Listings;

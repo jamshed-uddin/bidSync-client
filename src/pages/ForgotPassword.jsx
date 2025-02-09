@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import Button from "../components/Button";
 import useAuth from "../hooks/useAuth";
 import { MdOutlineMarkEmailRead } from "react-icons/md";

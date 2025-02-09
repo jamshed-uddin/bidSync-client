@@ -10,24 +10,25 @@ import UserProfile from "./pages/dashboard/UserProfile.jsx";
 import PrivateRoute from "./privateRoutes/PrivateRoute.jsx";
 import MyListings from "./pages/dashboard/MyListings.jsx";
 import MyBids from "./pages/dashboard/MyBids.jsx";
-import CreateAuction from "./pages/dashboard/CreateAuction.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import ScrollTop from "./ScrollTop.jsx";
-import Auctions from "./pages/Auctions.jsx";
+
 import Sell from "./pages/Sell.jsx";
 
 import SavedItems from "./pages/SavedItems.jsx";
-import AuctionDetail from "./pages/AuctionDetail.jsx";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WonAuctions from "./pages/dashboard/WonAuctions.jsx";
 import Overview from "./pages/dashboard/Overview.jsx";
-import Payments from "./pages/dashboard/Payments.jsx";
 import Shipping from "./pages/dashboard/Shipping.jsx";
 import Checkout from "./pages/dashboard/Checkout.jsx";
 import PaymentSuccess from "./pages/dashboard/PaymentSuccess.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ListAnItem from "./pages/dashboard/ListAnItem.jsx";
+import ItemDetails from "./pages/ItemDetails.jsx";
+import Deals from "./pages/Listings.jsx";
 
 const queryClient = new QueryClient();
 
@@ -47,12 +48,12 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/auctions",
-        element: <Auctions />,
+        path: "/listings",
+        element: <Deals />,
       },
       {
-        path: "/auctions/:id",
-        element: <AuctionDetail />,
+        path: "/listings/:id",
+        element: <ItemDetails />,
       },
 
       {
@@ -133,29 +134,22 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "createAuction",
+        path: "listItem",
         element: (
           <PrivateRoute>
-            <CreateAuction />
+            <ListAnItem />
           </PrivateRoute>
         ),
       },
       {
-        path: "editAuction/:id",
+        path: "editItem/:id",
         element: (
           <PrivateRoute>
-            <CreateAuction />
+            <ListAnItem />
           </PrivateRoute>
         ),
       },
-      {
-        path: "payments",
-        element: (
-          <PrivateRoute>
-            <Payments />
-          </PrivateRoute>
-        ),
-      },
+
       {
         path: "paymentSuccess",
         element: (

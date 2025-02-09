@@ -15,11 +15,10 @@ const Notifications = () => {
   );
   const [notifiModalOpen, setNotifiModalOpen] = useState(false);
 
-  const {
-    data: notifications,
-    isLoading,
-    error,
-  } = useGetData("/notifications", !!singleUser?._id);
+  const { data: notifications } = useGetData(
+    "/notifications",
+    !!singleUser?._id
+  );
 
   const handleNotificationOpen = async () => {
     setNotifiModalOpen(true);

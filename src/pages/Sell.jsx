@@ -42,7 +42,7 @@ const Sell = () => {
     <div className="space-y-7 mt-8">
       <div>
         <div>
-          <h1 className="text-5xl lg:text-8xl ">
+          <h1 className="text-5xl lg:text-8xl  font-baskervville">
             Find the perfect buyer for your special object
           </h1>
         </div>

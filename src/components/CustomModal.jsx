@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { HiXMark } from "react-icons/hi2";
+
 import Modal from "react-modal";
 
 const customStyles = {
   overlay: { backgroundColor: "transparent" },
   content: {
     minWidth: "45%",
+    maxWidth: "50%",
     top: "50%",
     left: "50%",
     right: "auto",
@@ -63,7 +64,7 @@ const CustomModal = ({
       shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
       style={isMobileDevice ? customMobileStyle : customStyles}
     >
-      <div className="cursor-auto hide-scrollbar">
+      <div className="cursor-auto hide-scrollbar ">
         <div className=" bg-white hide-scrollbar">{children}</div>
       </div>
     </Modal>

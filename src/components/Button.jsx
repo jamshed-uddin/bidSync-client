@@ -6,7 +6,7 @@ const Button = ({ children, disabled, clickFunc, type, style, isLoading }) => {
       type={type}
       disabled={disabled}
       onClick={clickFunc}
-      className={`relative rounded-lg px-4 py-1 text-lg active:scale-95 font-semibold  ${
+      className={`relative rounded-lg px-4 py-1 lg:text-lg active:scale-95 lg:font-semibold  ${
         style === "bordered"
           ? "bg-white text-black border-[1.5px] border-black"
           : "bg-[#0f0e0e] text-white border-[1.5px] border-black"

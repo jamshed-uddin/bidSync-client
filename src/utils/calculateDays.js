@@ -4,7 +4,7 @@ const calculateDays = (futureDate, onlyDays = false) => {
 
   const difference = targetDate - currentDate;
   if (difference <= 0) {
-    return `Auction closed`;
+    return "";
   }
 
   const days = Math.floor(difference / (1000 * 60 * 60 * 24));

@@ -1,10 +1,15 @@
 import useSingleUser from "../../hooks/useSingleUser";
 import DashboardTitle from "../../components/dashboard/DashboardTitle";
-import AuctionGrid from "../../components/AuctionGrid";
+import AuctionGrid from "../../components/ListingGrid";
 import useGetData from "../../hooks/useGetData";
 import CardSkeleton from "../../components/CardSkeleton";
 import NoItemAvailable from "../../components/NoItemAvailable";
 import WentWrong from "../../components/WentWrong";
+import Table from "../../components/dashboard/Table";
+import TableSkeleton from "../../components/TableSkeleton";
+import { FiEdit } from "react-icons/fi";
+import { FaRegTrashCan } from "react-icons/fa6";
+import ItemDeleteEdit from "../../components/dashboard/ItemDeleteEdit";
 
 const MyListings = () => {
   const { singleUser } = useSingleUser();
@@ -15,21 +20,42 @@ const MyListings = () => {
     error,
   } = useGetData(`/listings/myListings/${singleUser?._id}`, !!singleUser?._id);
 
-  if (isLoading) {
-    return <CardSkeleton amount={3} />;
-  }
+  const column = [
+    {
+      headerName: "Title",
+      field: "title",
+      width: 250,
+    },
+    {
+      headerName: "Starting price",
+      field: "startingPrice",
+      width: 250,
+    },
+    {
+      headerName: "Current bid",
+      field: "highestBid",
+      width: 250,
+    },
+    {
+      headerName: "Actions",
 
-  if (error) {
-    return <WentWrong />;
-  }
+      field: "action",
+      renderCell: (params) => <ItemDeleteEdit item={params} />,
+      width: 200,
+    },
+  ];
 
   return (
     <div>
       <DashboardTitle>My listings</DashboardTitle>
-      {myListings && !isLoading && !myListings?.length ? (
+      {isLoading ? (
+        <TableSkeleton />
+      ) : error ? (
+        <WentWrong />
+      ) : myListings && !isLoading && !myListings?.length ? (
         <NoItemAvailable />
       ) : (
-        <AuctionGrid items={myListings} placedIn={"dashboard"} />
+        <Table column={column} data={myListings} />
       )}
     </div>
   );
